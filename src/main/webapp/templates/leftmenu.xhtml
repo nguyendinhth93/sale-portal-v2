@@ -1,0 +1,55 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:sn="http://primefaces.org/sonattheme"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+    <h:form id="form_menu">
+        <div class="layout-menu">
+            <div class="nano has-scrollbar">
+                <div class="nano-content menu-scroll-content" tabindex="0" style="margin-right: -17px;">
+                    <div class="profile">
+                        <div class="profile-image"></div>
+                        <a href="#" id="profile-options">
+                            <span class="profile-name">#{menuBean.fullName}</span>
+                            <i class="material-icons"></i>
+                        </a>
+                    </div>
+                    <ul class="ultima-menu" id="profile-menu" style="display: none;">
+                        <!--<li role="menuitem">-->
+                            <!--<a class="ripplelink" href="#">-->
+                                <!--<i class="material-icons"></i>-->
+                                <!--<span>Profile</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li role="menuitem">-->
+                            <!--<a class="ripplelink" href="#">-->
+                                <!--<i class="material-icons"></i>-->
+                                <!--<span>Privacy</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li role="menuitem">-->
+                            <!--<a class="ripplelink" href="#">-->
+                                <!--<i class="material-icons"></i>-->
+                                <!--<span>Settings</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <!--<li role="menuitem">-->
+                            <!--<a class="ripplelink" href="#">-->
+                                <!--<i class="material-icons"></i>-->
+                                <!--<span>Logout</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <sn:menu model="#{menuBean.profileMenu}" />
+                    </ul>
+                    <sn:menu model="#{menuBean.mainMenu}"/>
+                </div>
+                <div class="nano-pane">
+                    <div class="nano-slider" style="height: 59px; transform: translate(0px, 51.3016px);"></div>
+                </div>
+            </div>
+
+        </div>
+    </h:form>
+</ui:composition>

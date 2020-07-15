@@ -1,0 +1,285 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['checking.meeting.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['checking.meeting.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['boCheckupResult.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['distribute.meeting.province.label']}"/>
+                                <p:selectCheckboxMenu id="province"
+                                                      filter="true"
+                                                      showCheckbox="true"
+                                                      styleClass="Container90"
+                                                      filterMatchMode="contains"
+                                                      label="#{checkingMeetingResultController.listCheckBoxLabel[lang['distribute.meeting.province.label']]}"
+                                                      value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.provinceList}"
+                                                      onHide="updateLabelProvince();">
+                                    <f:selectItems value="#{checkingMeetingResultController.lstProvinces}"
+                                                   var="areaDTO"
+                                                   itemValue="#{areaDTO.code}"
+                                                   itemLabel="#{areaDTO.name}"/>
+                                    <p:remoteCommand name="updateLabelProvince" update="province"
+                                                     process="@this,province"
+                                                     actionListener="#{checkingMeetingResultController.updateLabelSelectCheckbox(lang['distribute.meeting.province.label'], checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.provinceList)}"/>
+                                </p:selectCheckboxMenu>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.customerName']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.customerName}"/>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.customerPhone']}"/>
+                                <p:inputText maxlength="200" converter="stringTrimmer" value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.customerPhone}"/>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.nationalId']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.nationalId}"/>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.receivedDsaDate.form.date']}" />
+                                <p:calendar value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.receivedDsaDateFrom}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="receivedDsaDateFormDate" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.receivedDsaDate.to.date']}" />
+                                <p:calendar value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.receivedDsaDateTo}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="receivedDsaDateToDate" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.checkup.status']}" for="checkupStatus"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="checkupStatus" filter="true" filterMatchMode="contains"
+                                                     value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.checkupStatus}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{checkingMeetingResultController.statusDocCheckUps}"
+                                                       var="optionDTO"
+                                                       itemValue="#{optionDTO.value}"
+                                                       itemLabel="#{optionDTO.name}"
+                                        />
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.returnDsaDate.from.date']}" />
+                                <p:calendar value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.returnDsaDateFrom}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="returnDsaDateFromDate" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.returnDsaDate.to.date']}" />
+                                <p:calendar value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.returnDsaDateTo}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="returnDsaDateToDate" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.qde.status']}" for="qdeStatus"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="qdeStatus" filter="true" filterMatchMode="contains"
+                                                     value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.qdeStatus}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{checkingMeetingResultController.statusDocQDEs}"
+                                                       var="optionDTO"
+                                                       itemValue="#{optionDTO.value}"
+                                                       itemLabel="#{optionDTO.name}"
+                                        />
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.sendQDE.from.date']}" for="sendQDEFrom"/>
+                                <p:outputPanel>
+                                    <p:calendar value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.sendQdeDateFrom}"
+                                                pattern="#{lang['common.datetime.format']}" mask="true"
+                                                id="sendQDEFrom" navigator="true" styleClass="cal meetdate"
+                                                widgetVar="callFromdateWd" showButtonPanel="true">
+                                        <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                    </p:calendar>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.sendQDE.to.date']}" for="sendQDETo"/>
+                                <p:outputPanel>
+                                    <p:calendar value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.sendQdeDateTo}"
+                                                pattern="#{lang['common.datetime.format']}" mask="true"
+                                                id="sendQDETo" navigator="true" styleClass="cal meetdate"
+                                                widgetVar="callFromdateWd" showButtonPanel="true">
+                                        <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                    </p:calendar>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.status.vpbank']}" for="statusVpbank"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="statusVpbank" filter="true" filterMatchMode="contains"
+                                                     value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.statusDocVpBank}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{checkingMeetingResultController.statusDocVpbanks}"
+                                                       var="statusDocVpbank"
+                                                       itemValue="#{statusDocVpbank.value}"
+                                                       itemLabel="#{statusDocVpbank.name}"
+                                        />
+                                        <f:selectItem itemValue="-1" itemLabel="#{lang['update.meeting.accept.status.value.null']}" escape="true"/>
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.status.return.doc']}" for="docReturnStatus"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="docReturnStatus" filter="true" filterMatchMode="contains"
+                                                     value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.docReturnStatus}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{checkingMeetingResultController.statusReturnDocs}"
+                                                       var="optionDTO"
+                                                       itemValue="#{optionDTO.value}"
+                                                       itemLabel="#{optionDTO.name}"
+                                        />
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.sendToFollow']}" for="sendToFollow"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="sendToFollow" filter="true" filterMatchMode="contains"
+                                                     value="#{checkingMeetingResultController.lazyLoadBoCheckupResult.requestSearchDTO.sendToFollow}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{checkingMeetingResultController.sendToFollows}"
+                                                       var="optionDTO"
+                                                       itemValue="#{optionDTO.value}"
+                                                       itemLabel="#{optionDTO.name}"
+                                        />
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                        <p:commandButton value="#{lang['common.btn.export']}"
+                                         ajax="false"
+                                         process="@this, @([id$=searchForm])"
+                                         action="#{checkingMeetingResultController.exportData}"
+                                         icon="ui-icon-file-download" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{checkingMeetingResultController.lazyLoadBoCheckupResult}"
+                                    var="boCheckupResult"
+                                    rowIndexVar="index"
+                                    rowKey="#{boCheckupResult.key}"
+                                    lazy="true"
+                                    selection="#{checkingMeetingResultController.lazyLoadBoCheckupResult.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition.top']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%" styleClass="al-center">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.customerName']}">
+                                    <p:outputLabel value="#{boCheckupResult.customerName}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.customerPhone']}">
+                                    <p:outputLabel value="#{boCheckupResult.customerPhone}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.nationalId']}">
+                                    <p:outputLabel value="#{boCheckupResult.nationalId}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.partner']}">
+                                    <p:outputLabel value="#{boCheckupResult.partnerCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.bound.code']}">
+                                    <p:outputLabel value="#{boCheckupResult.boundCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.receivedDsaDate']}">
+                                    <p:outputLabel value="#{checkingMeetingResultController.convertDateToString(boCheckupResult.receivedDsaDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.sendQDE']}">
+                                    <p:outputLabel value="#{checkingMeetingResultController.convertDateToString(boCheckupResult.sendQdeDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.qde.status']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_QDE_STATUS_CHECK_UP',boCheckupResult.qdeStatus)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.checkup.status']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_STATUS_CHECK_UP',boCheckupResult.checkupStatus)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.status.vpbank']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_STATUS_DOC_VPBANK',boCheckupResult.statusDocVpbank)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.btn.next.qde']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{boCheckupResult.sendToFollow == 1 ? lang['boCheckupResult.label.send.follow.active'] : boCheckupResult.sendToFollow == 2 ? lang['boCheckupResult.label.send.follow.return'] : lang['boCheckupResult.label.send.follow.inactive']}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.status.return.doc']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_DOC_RETURN_STATUS',boCheckupResult.docReturnStatus)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}" styleClass="al-center">
+                                    <p:commandLink actionListener="#{checkingMeetingResultController.prepareToShowUpdate(boCheckupResult)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgCheckingMeeting').show()}"
+                                                   update="@([id$=frmBoCheckupResult])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-zoom-in" /></p:commandLink>
+                                    <p:commandLink
+                                            id="btnDownloadEdu"
+                                            ajax="false"
+                                            actionListener="#{checkingMeetingResultController.downloadFileAtt(boCheckupResult.dsaResultMeetingId)}"
+                                            immediate="true"
+                                            style="text-decoration: none!important;">
+                                        <i class="ui-icon ui-icon-file-download"></i>
+                                        <p:fileDownload
+                                                value="#{checkingMeetingResultController.downloadFile}"/>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column selectionMode="multiple" style="width: 5%" styleClass="al-center"/>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgCheckingMeeting"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{checkingMeetingResultController.headerDialog}"
+                  style="!important;max-height:90%;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="90%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgCheckingMeeting.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,166 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['user.manage.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['user.manage.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['apConfig.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['user.manage.label.username']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{userController.lazyLoadUser.requestSearchDTO.userName}"/>
+
+                                <p:outputLabel value="#{lang['user.manage.label.fullname']}"/>
+                                <p:inputText maxlength="200" converter="stringTrimmer" value="#{userController.lazyLoadUser.requestSearchDTO.fullName}"/>
+
+                                <p:outputLabel value="#{lang['common.label.status']}" />
+                                <p:selectOneMenu filter="true" filterMatchMode="startsWith" value="#{userController.lazyLoadUser.requestSearchDTO.status}">
+                                    <f:selectItem itemLabel="#{lang['common.label.choose']}" />
+                                    <f:selectItem itemValue="1" itemLabel="#{lang['common.label.status.active']}"/>
+                                    <f:selectItem itemValue="0" itemLabel="#{lang['common.label.status.inactive']}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                        <p:commandButton value="#{lang['common.btn.export']}"
+                                         ajax="false"
+                                         process="@this, @([id$=searchForm])"
+                                         action="#{userController.exportData}"
+                                         icon="ui-icon-file-download" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{userController.lazyLoadUser}"
+                                    var="user"
+                                    rowIndexVar="index"
+                                    rowKey="#{user.key}"
+                                    lazy="true"
+                                    disabledSelection="#{user.status == 0}"
+                                    selection="#{userController.lazyLoadUser.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <p:commandButton value="#{lang['common.btn.add']}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgUser').show()}"
+                                                     actionListener="#{userController.prepareToShowAdd}"
+                                                     update="@([id$=frmUser])"
+                                                     process="@this"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-add">
+                                    </p:commandButton>
+                                    <sn:confirmDialog
+                                            idComponent="btnDelete"
+                                            valueButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionValidate="#{userController.validateBeforeDelete}"
+                                            actionOK="#{userController.delete}"
+                                            styleClassButton="red-btn"
+                                            styleButton="float: right"
+                                            iconButton="ui-icon-delete"
+                                            process="@this, @([id$=tblResultSearch])"
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="false"
+                                            isButton="true"/>
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%" styleClass="al-center">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['user.label.staff.code']}">
+                                    <p:outputLabel value="#{user.staffCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['user.manage.label.username']}">
+                                    <p:outputLabel value="#{user.userName}" />
+                                </p:column>
+                                <p:column headerText="#{lang['user.manage.label.fullname']}">
+                                    <p:outputLabel value="#{user.fullName}" />
+                                </p:column>
+                                <p:column headerText="#{lang['user.label.role']}">
+                                    <p:outputLabel value="#{user.role}" />
+                                </p:column>
+                                <p:column headerText="#{lang['user.label.voice.code']}">
+                                    <p:outputLabel value="#{user.voiceCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['user.label.sale.code']}">
+                                    <p:outputLabel value="#{user.saleCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.status']}"  styleClass="al-center"
+                                          sortBy="#{user.status}">
+                                    <p:outputLabel value="#{user.status == 1 ? lang['common.label.status.active'] : lang['common.label.status.inactive']}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}" styleClass="al-center">
+                                    <p:commandLink actionListener="#{userController.prepareToShowUpdate(user)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgUser').show()}"
+                                                   update="@([id$=frmUser])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-edit" /></p:commandLink>
+                                    <sn:confirmDialog
+                                            renderedBtn="#{user.status == 1}"
+                                            idComponent="btnDeleteOne"
+                                            titleButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionOK="#{userController.delete}"
+                                            actionValidate="#{userController.prepareDeleteOne(user)}"
+                                            iconButton="ui-icon ui-icon-delete"
+                                            process="@this"
+                                            valueButton=""
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="false"
+                                            isButton="false"/>
+                                </p:column>
+                                <p:column selectionMode="multiple" style="width: 5%" styleClass="al-center"/>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgUser"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{userController.headerDialog}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgUser.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

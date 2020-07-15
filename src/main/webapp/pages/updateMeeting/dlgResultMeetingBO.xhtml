@@ -1,0 +1,75 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmResultMeetingBO">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['input.meeting.customer.name.label']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.customerName}"/>
+
+                    <p:outputLabel value="#{lang['input.meeting.phone.label']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.customerPhone}"/>
+
+                    <p:outputLabel value="#{lang['input.meeting.national.id.label']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.nationalId}"/>
+
+                    <p:outputLabel value="#{lang['input.meeting.limit.label']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.uplLimit}"/>
+
+                    <p:outputLabel value="#{lang['input.meeting.limit.card.label']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.ccLimit}"/>
+
+                    <p:outputLabel value="#{lang['input.meeting.boundcode.label']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.boundCode}"/>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.validDate']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertDateToString(updateMeetingController.boCheckupResultDTO.validDate)}"/>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.checkup.status']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertOptionSetByCodeAndValue('SALE_BO_STATUS_CHECK_UP',updateMeetingController.boCheckupResultDTO.checkupStatus)}"/>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.reason.status']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertOptionSetByCodeAndValue('SALE_BO_STATUS_REASON_CHECK_UP',updateMeetingController.boCheckupResultDTO.checkupReason)}"/>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.reason.detail.status']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.checkupReasonDetail}"/>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.losCode']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.losCode}"/>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.status.vpbank']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_STATUS_DOC_VPBANK',updateMeetingController.boCheckupResultDTO.statusDocVpbank)}"/>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.group.status.vpbank']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_GROUP_STATUS_DOC',updateMeetingController.boCheckupResultDTO.groupDocStatus)}"/>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.detail.status.vpbank']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_DETAIL_STATUS_DOC',updateMeetingController.boCheckupResultDTO.detailStatusDocVpbank)}"/>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.note.status.vpbank']}"/>
+                    <p:outputLabel value="#{updateMeetingController.boCheckupResultDTO.noteStatusDocVpbank}"/>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.toLosDate']}"/>
+                    <p:outputLabel value="#{updateMeetingController.convertDateToString(updateMeetingController.boCheckupResultDTO.toLosDate)}"/>
+
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgResultMeetingBO').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

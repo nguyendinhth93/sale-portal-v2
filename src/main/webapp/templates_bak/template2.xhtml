@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+    </f:facet>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}"/>
+    <title>
+        <ui:insert name="title">QLNS Agent Tool</ui:insert>
+    </title>
+    <h:outputScript library="ultima-layout" name="js/ripple.js"/>
+
+    <ui:insert name="head"/>
+</h:head>
+<h:body class="#{bodyClass}">
+    <f:view contentType="text/html" locale="#{language.locale}" id="viewLocale">
+        <h:outputStylesheet library="ultima-layout" name="css/ripple.css"/>
+        <h:outputStylesheet library="ultima-layout" name="css/layout-indigo.css"/>
+        <h:outputStylesheet name="css/custom.css" library="ultima-layout"/>
+
+        <ui:insert name="content"/>
+
+        <div id="layout-portlets-cover" class="fontRegular">
+
+            <p:ajaxStatus onstart="startTimer();"
+                          onsuccess="PF('statusDialog').hide();stopTimer();"
+                          onerror="PF('errorDialog').show();stopTimer();PF('statusDialog').hide()"/>
+
+            <p:dialog modal="true" widgetVar="statusDialog" header="#{lang['common.processing']}"
+                      draggable="false" closable="false" resizable="false">
+                <h:graphicImage name="themes/logo/ajaxloadingbar.gif"/>
+            </p:dialog>
+
+            <p:dialog modal="true" widgetVar="errorDialog"
+                      header="#{lang['common.error.happened']}" draggable="false" closable="false" resizable="false">
+                #{lang['common.error.pressF5']}
+            </p:dialog>
+
+        </div>
+    </f:view>
+    <script type="text/javascript">
+        var t;
+
+        function startTimer() {
+            t = setTimeout("PF('statusDialog').show()", 1000);
+        }
+
+        function stopTimer() {
+            clearTimeout(t);
+
+        }
+    </script>
+</h:body>
+</html>

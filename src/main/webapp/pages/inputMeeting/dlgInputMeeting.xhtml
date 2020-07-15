@@ -1,0 +1,230 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmDsaResultMeeting">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['input.meeting.customer.name.label']}" for="customerName"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerName" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.customerName}">
+                        </p:inputText>
+                        <p:message for="customerName" />
+                    </p:outputPanel>
+
+
+                    <p:outputLabel value="#{lang['input.meeting.national.id.label']}" for="nationalId"/>
+                    <p:outputPanel>
+                        <p:inputText id="nationalId" maxlength="200" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.vietnamese']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.nationalId}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="nationalId" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.phone.label']}" for="phone"/>
+                    <p:outputPanel>
+                        <p:inputText id="phone" maxlength="30" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.customerPhone}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="phone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.boundcode.label']}" for="boundcode"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundcode" maxlength="30" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.boundCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundcode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.boundcode.dsa.label']}" for="boundcodeDsa"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundcodeDsa" maxlength="30" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.boundCodeDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundcodeDsa" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.limit.label']}" for="limit"/>
+                    <p:outputPanel>
+                        <p:inputText id="limit" maxlength="30" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.limit}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="limit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.limit.card.label']}" for="limitCard"/>
+                    <p:outputPanel>
+                        <p:inputText id="limitCard" maxlength="30" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.limitCard}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="limitCard" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.cca.label']}" for="cca"/>
+                    <p:outputPanel>
+                        <p:inputText id="cca" maxlength="30" disabled="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.ccaName}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="cca" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.province.meeting.label']}" for="province"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="province" filter="true" filterMatchMode="contains" required="true"
+                                         panelStyleClass="ui-input-overlay"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                         value="#{inputMeetingController.currentDsaResultMeeting.provinceMeetingCode}">
+                            <f:selectItem itemValue="-1" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{inputMeetingController.lstProvinces}"
+                                           var="areaDTO"
+                                           itemValue="#{areaDTO.code}"
+                                           itemLabel="#{areaDTO.name}"
+                            />
+                            <p:ajax listener="#{inputMeetingController.getListDistrictByProvinceId(inputMeetingController.currentDsaResultMeeting.provinceMeetingCode)}" update="district" />
+                        </p:selectOneMenu>
+                        <p:message for="province" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.district.meeting.label']}" for="district"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="district" filter="true" filterMatchMode="contains" required="true"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                         value="#{inputMeetingController.currentDsaResultMeeting.districtMeetingCode}">
+                            <f:selectItem itemValue="-1" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{inputMeetingController.lstDistricts}"
+                                           var="areaDTO"
+                                           itemValue="#{areaDTO.code}"
+                                           itemLabel="#{areaDTO.name}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="district" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.cca.note.label']}" for="ccaNote"/>
+                    <p:outputPanel>
+                        <p:inputTextarea id="ccaNote" maxlength="2000" autoResize="true" disabled="true"
+                                         value="#{inputMeetingController.currentDsaResultMeeting.ccaNote}" converter="stringTrimmer"/>
+                        <p:message for="ccaNote" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.meeting.result.label']}" for="result"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu required="true" id="result"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{inputMeetingController.currentDsaResultMeeting.meetingResult}">
+                            <f:selectItem itemValue="-1" itemLabel="#{lang['common.label.choose']}"/>
+                            <f:selectItems
+                                    value="#{inputMeetingController.meetingResults}"
+                                    var="meetingResult"
+                                    itemValue="#{meetingResult.value}"
+                                    itemLabel="#{meetingResult.name}"/>
+                            <p:ajax listener="#{inputMeetingController.updateByMeetingResult(inputMeetingController.currentDsaResultMeeting.meetingResult)}" process="@this" update="@([id$=reason]),@([id$=meetingDate])"></p:ajax>
+                        </p:selectOneMenu>
+                        <p:message for="result" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.meeting.reason.label']}" for="reason"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="reason" requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{inputMeetingController.currentDsaResultMeeting.meetingReason}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}"/>
+                            <f:selectItems
+                                    value="#{inputMeetingController.reasonLists}"
+                                    var="meetingResult"
+                                    itemValue="#{meetingResult.value}"
+                                    itemLabel="#{meetingResult.name}"/>
+                        </p:selectOneMenu>
+                        <p:message for="reason" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.meeting.date.label']}" for="meetingDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{inputMeetingController.currentDsaResultMeeting.meetingDate}"
+                                    label="#{inputMeetingController.currentDsaResultMeeting.meetingDate eq null ? inputMeetingController.currentDsaResultMeeting.ccaMeetingDate : inputMeetingController.currentDsaResultMeeting.meetingDate}"
+                                    disabled="#{inputMeetingController.checkDisableMeetingDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="meetingDate" navigator="true" styleClass="cal fromdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true"
+                                    requiredMessage="#{lang['input.meeting.meeting.date.req.mess']}">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="meetingDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.meeting.file.label']}" for="meetingFile"/>
+                    <p:outputPanel>
+                        <p:fileUpload id="meetingFile"
+                                      label="#{lang['select.file']}"
+                                      update="@this,@([id$=fileNameUpload])"
+                                      value="#{inputMeetingController.uploadedFile}"
+                                      fileUploadListener="#{inputMeetingController.fileUploadAction}"
+                                      mode="advanced"
+                                      auto="true"/>
+                        <p:message for="meetingFile" />
+                        <p:inputText id="fileNameUpload" disabled="true"
+                                     value="#{inputMeetingController.fileName}" converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.dsa.note.label']}" for="dsaNote"/>
+                    <p:outputPanel>
+                        <p:inputTextarea id="dsaNote" maxlength="2000" autoResize="false"
+                                         value="#{inputMeetingController.currentDsaResultMeeting.dsaNote}" converter="stringTrimmer"/>
+                        <p:message for="dsaNote" />
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSaveInput"
+                    disableButton="#{inputMeetingController.renderBtnSubmit}"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{inputMeetingController.validateBeforeSave}"
+                    actionOK="#{inputMeetingController.saveOrUpdate}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmDsaResultMeeting])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmDsaResultMeeting])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgInputMeeting').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

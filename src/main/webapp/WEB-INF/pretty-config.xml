@@ -1,0 +1,114 @@
+
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+    <url-mapping id="apDomain">
+        <pattern value="/apDomain.jsf" />
+        <view-id value="/pages/apdomain/apDomain.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="campaign">
+        <pattern value="/campaign.jsf" />
+        <view-id value="/pages/campaign/campaign.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="creditScoring">
+        <pattern value="/creditScoring.jsf" />
+        <view-id value="/pages/creditScoring/creditScoring.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="inputMeeting">
+        <pattern value="/inputMeeting.jsf" />
+        <view-id value="/pages/inputMeeting/inputMeeting.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="distributeMeeting">
+        <pattern value="/distributeMeeting.jsf" />
+        <view-id value="/pages/distributeMeeting/distributeMeeting.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="acceptedMeeting">
+        <pattern value="/acceptedMeeting.jsf"/>
+        <view-id value="/pages/acceptedMeeting/acceptedMeeting.xhtml" />
+    </url-mapping>
+
+    <url-mapping id="changePassword">
+        <pattern value="/changePassword.jsf"/>
+        <view-id value="/pages/changePassword/changePassword.xhtml" />
+    </url-mapping>
+
+    <!--User manage-->
+    <url-mapping id="user">
+        <pattern value="/user.jsf"/>
+        <view-id value="/pages/user/user.xhtml" />
+    </url-mapping>
+
+    <!--Function manage-->
+    <url-mapping id="function">
+        <pattern value="/function.jsf"/>
+        <view-id value="/pages/function/function.xhtml" />
+    </url-mapping>
+
+    <!--Update Meeting-->
+    <url-mapping id="updateMeeting">
+        <pattern value="/updateMeeting.jsf"/>
+        <view-id value="/pages/updateMeeting/updateMeeting.xhtml" />
+    </url-mapping>
+
+    <!--Update Meeting-->
+    <url-mapping id="voiceDetailReport">
+        <pattern value="/voiceDetailReport.jsf"/>
+        <view-id value="/pages/voiceDetailReport/voiceDetailReport.xhtml" />
+    </url-mapping>
+
+    <!--Update Meeting-->
+    <url-mapping id="ratioCollectMeetingReport">
+        <pattern value="/ratioCollectMeetingReport.jsf"/>
+        <view-id value="/pages/ratioCollectMeetingReport/ratioCollectMeetingReport.xhtml" />
+    </url-mapping>
+
+    <!--Update Meeting-->
+    <url-mapping id="voiceSummaryReport">
+        <pattern value="/voiceSummaryReport.jsf"/>
+        <view-id value="/pages/voiceSummaryReport/voiceSummaryReport.xhtml" />
+    </url-mapping>
+
+    <!--BO CHECKUP Meeting-->
+    <url-mapping id="boCheckupResult">
+        <pattern value="/boCheckupResult.jsf"/>
+        <view-id value="/pages/boCheckupResult/boCheckupResult.xhtml" />
+    </url-mapping>
+
+    <!--BO FOLLOW Meeting-->
+    <url-mapping id="boFollowResult">
+        <pattern value="/boFollowResult.jsf"/>
+        <view-id value="/pages/boFollowResult/boFollowResult.xhtml" />
+    </url-mapping>
+
+    <!--Checking Meeting-->
+    <url-mapping id="checkingMeeting">
+        <pattern value="/checkingMeeting.jsf"/>
+        <view-id value="/pages/checkingMeeting/checkingMeeting.xhtml" />
+    </url-mapping>
+
+    <!--Checking Meeting-->
+    <url-mapping id="saleFunnelCca">
+        <pattern value="/saleFunnelCca.jsf"/>
+        <view-id value="/pages/saleFunnelCca/saleFunnelCca.xhtml" />
+    </url-mapping>
+
+    <!--Sale Funnel-->
+    <url-mapping id="saleFunnel">
+        <pattern value="/saleFunnel.jsf"/>
+        <view-id value="/pages/saleFunnel/saleFunnel.xhtml" />
+    </url-mapping>
+
+    <!--ROLE Manage-->
+    <url-mapping id="userGroup">
+        <pattern value="/userGroup.jsf"/>
+        <view-id value="/pages/userGroup/userGroup.xhtml" />
+    </url-mapping>
+
+</pretty-config>

@@ -1,0 +1,267 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:o="http://java.sun.com/jsf/core">
+    <h:form id="frmBoCheckupResult">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.customerName']}" for="customerName"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerName" maxlength="30" readonly="true"
+                                     converter="stringTrimmer"
+                                     value="#{boFollowResultController.currentBoCheckupResult.customerName}">
+                        </p:inputText>
+                        <p:message for="customerName" />
+                    </p:outputPanel>
+
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.customerPhone']}" for="customerPhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerPhone" maxlength="15" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.customerPhone}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="customerPhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.nationalId']}" for="nationalId"/>
+                    <p:outputPanel>
+                        <p:inputText id="nationalId" maxlength="30" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.nationalId}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="nationalId" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.partner']}" for="partnerCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="partnerCode" maxlength="2000" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.partnerCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="partnerCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.bound.code']}" for="boundCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundCode" maxlength="2000" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.boundCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.bound.code.dsa']}" for="boundCodeDsa"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundCodeDsa" maxlength="2000" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.boundCodeDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundCodeDsa" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.province.lead']}" for="provincePhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="provincePhone" maxlength="2000" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.provinceName}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="provincePhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.upl.limit']}" for="uplLimit"/>
+                    <p:outputPanel>
+                        <p:inputText id="uplLimit" maxlength="2000" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.uplLimitDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="uplLimit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.cc.limit']}" for="ccLimit"/>
+                    <p:outputPanel>
+                        <p:inputText id="ccLimit" maxlength="2000" readonly="true"
+                                     value="#{boFollowResultController.currentBoCheckupResult.ccLimitDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="ccLimit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.validDate']}" for="validDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boFollowResultController.currentBoCheckupResult.validDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true" disabled="true"
+                                    id="validDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="validDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.toLosDate']}" for="toLosDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boFollowResultController.currentBoCheckupResult.toLosDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="toLosDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="toLosDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.losCode']}" for="losCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="losCode" maxlength="2000"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     value="#{boFollowResultController.currentBoCheckupResult.losCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="losCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.status.vpbank']}" for="statusVpbank"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="statusVpbank" filter="true" filterMatchMode="contains"
+                                         value="#{boFollowResultController.currentBoCheckupResult.statusDocVpbank}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boFollowResultController.statusDocVpbanks}"
+                                           var="statusDocVpbank"
+                                           itemValue="#{statusDocVpbank.value}"
+                                           itemLabel="#{statusDocVpbank.name}"
+                            />
+                            <p:ajax listener="#{boFollowResultController.updateGroupByDocStatus(boFollowResultController.currentBoCheckupResult.statusDocVpbank)}" update="groupStatusVpbank" />
+                        </p:selectOneMenu>
+                        <p:message for="statusVpbank" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.group.status.vpbank']}" for="groupStatusVpbank"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="groupStatusVpbank" filter="true" filterMatchMode="contains"
+                                         value="#{boFollowResultController.currentBoCheckupResult.groupDocStatus}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boFollowResultController.groupStatusDocs}"
+                                           var="statusDocVpbank"
+                                           itemValue="#{statusDocVpbank.value}"
+                                           itemLabel="#{statusDocVpbank.name}"
+                            />
+                            <p:ajax listener="#{boFollowResultController.updateDetailByDocGroup(boFollowResultController.currentBoCheckupResult.groupDocStatus)}" update="detailStatusVpbank" />
+                        </p:selectOneMenu>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.detail.status.vpbank']}" for="detailStatusVpbank"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="detailStatusVpbank" filter="true" filterMatchMode="contains"
+                                         value="#{boFollowResultController.currentBoCheckupResult.detailStatusDocVpbank}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boFollowResultController.detailStatusDocs}"
+                                           var="statusDocVpbank"
+                                           itemValue="#{statusDocVpbank.value}"
+                                           itemLabel="#{statusDocVpbank.name}"
+                            />
+                        </p:selectOneMenu>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.note.status.vpbank']}" for="noteStatusVpbank"/>
+                    <p:outputPanel>
+                        <p:inputText id="noteStatusVpbank" maxlength="2000"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     value="#{boFollowResultController.currentBoCheckupResult.noteStatusDocVpbank}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="noteStatusVpbank" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.status.return.doc']}" for="statusReturnDoc"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="statusReturnDoc" filter="true" filterMatchMode="contains" style="min-width: 20px !important;"
+                                         value="#{boFollowResultController.currentBoCheckupResult.docReturnStatus}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boFollowResultController.statusReturnDocs}"
+                                           var="statusDocVpbank"
+                                           itemValue="#{statusDocVpbank.value}"
+                                           itemLabel="#{statusDocVpbank.name}"
+                            />
+                        </p:selectOneMenu>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.toFiDate']}" for="toFiDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boFollowResultController.currentBoCheckupResult.toFiDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="toFiDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="toFiDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.returnQDEDate']}" for="returnQDEDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boFollowResultController.currentBoCheckupResult.returnResultQdeDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="returnQDEDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="returnQDEDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.activeDate']}" for="activeDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boFollowResultController.currentBoCheckupResult.activeDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="activeDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="activeDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.limit']}" for="limit"/>
+                    <p:outputPanel>
+                        <p:inputText id="limit" maxlength="2000"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     value="#{boFollowResultController.currentBoCheckupResult.limitApproval}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="limit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.confirm.error.bo']}" for="confirmError"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="confirmError" filter="true" filterMatchMode="contains"
+                                         value="#{boFollowResultController.currentBoCheckupResult.confirmErrorBo}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boFollowResultController.confirmErrorBos}"
+                                           var="confirmError"
+                                           itemValue="#{confirmError.value}"
+                                           itemLabel="#{confirmError.name}"
+                            />
+                        </p:selectOneMenu>
+                    </p:outputPanel>
+
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSave"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{boFollowResultController.validateSave}"
+                    actionOK="#{boFollowResultController.saveOrUpdate}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmBoCheckupResult])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmBoCheckupResult])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgBoCheckupResult').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

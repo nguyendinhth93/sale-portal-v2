@@ -1,0 +1,81 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmUserGroup">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['user.group.user.name']}" for="userName"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu required="true" id="userName" filter="true" filterMatchMode="contains"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{userGroupController.currentUserGroup.userId}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{userGroupController.userDTOs}"
+                                           var="userDTO"
+                                           itemValue="#{userDTO.userId}"
+                                           itemLabel="#{userDTO.userName}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="userName"/>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['user.label.role']}" for="group"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu required="true" id="group" filter="true" filterMatchMode="contains"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{userGroupController.currentUserGroup.groupId}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{userGroupController.groupDTOs}"
+                                           var="group"
+                                           itemValue="#{group.id}"
+                                           itemLabel="#{group.name}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="group"/>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['common.label.status']}" for="status"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu required="true" id="status"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{userGroupController.currentUserGroup.status}">
+                            <f:selectItem itemValue="1" itemLabel="#{lang['common.label.status.active']}"/>
+                            <f:selectItem itemValue="0" itemLabel="#{lang['common.label.status.inactive']}"/>
+                        </p:selectOneMenu>
+                        <p:message for="status"/>
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSave"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{userGroupController.validateBeforeSave}"
+                    actionOK="#{userGroupController.saveOrUpdate}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmUserGroup])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmUserGroup])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgUserGroup').hide()"
+                             icon="ui-icon-close"/>
+        </div>
+    </h:form>
+</ui:composition>

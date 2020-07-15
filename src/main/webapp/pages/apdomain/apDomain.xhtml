@@ -1,0 +1,166 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['apConfig.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['apConfig.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['apConfig.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['apConfig.label.apType']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{apDomainController.lazyLoadApDomain.requestSearchDTO.type}"/>
+
+                                <p:outputLabel value="#{lang['apConfig.label.apName']}"/>
+                                <p:inputText maxlength="200" converter="stringTrimmer" value="#{apDomainController.lazyLoadApDomain.requestSearchDTO.name}"/>
+
+                                <p:outputLabel value="#{lang['apConfig.label.apCode']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{apDomainController.lazyLoadApDomain.requestSearchDTO.code}"/>
+
+                                <p:outputLabel value="#{lang['apConfig.label.apValue']}" />
+                                <p:inputText maxlength="2000" converter="stringTrimmer" value="#{apDomainController.lazyLoadApDomain.requestSearchDTO.value}"/>
+
+                                <p:outputLabel value="#{lang['common.label.status']}" />
+                                <p:selectOneMenu filter="true" filterMatchMode="startsWith" value="#{apDomainController.lazyLoadApDomain.requestSearchDTO.status}">
+                                    <f:selectItem itemLabel="#{lang['common.label.choose']}" />
+                                    <f:selectItem itemValue="1" itemLabel="#{lang['common.label.status.active']}"/>
+                                    <f:selectItem itemValue="0" itemLabel="#{lang['common.label.status.inactive']}"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{apDomainController.lazyLoadApDomain}"
+                                    var="apDomain"
+                                    rowIndexVar="index"
+                                    rowKey="#{apDomain.key}"
+                                    lazy="true"
+                                    disabledSelection="#{apDomain.status == 0}"
+                                    selection="#{apDomainController.lazyLoadApDomain.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <p:commandButton value="#{lang['common.btn.add']}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgAddApDomain').show()}"
+                                                     actionListener="#{apDomainController.prepareToShowAdd}"
+                                                     update="@([id$=frmAddApDomain])"
+                                                     process="@this"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-add">
+                                    </p:commandButton>
+                                    <sn:confirmDialog
+                                            idComponent="btnDelete"
+                                            valueButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionValidate="#{apDomainController.validateBeforeDelete}"
+                                            actionOK="#{apDomainController.delete}"
+                                            styleClassButton="red-btn"
+                                            styleButton="float: right"
+                                            iconButton="ui-icon-delete"
+                                            process="@this, @([id$=tblResultSearch])"
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            isButton="true"/>
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%" styleClass="al-center">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['apConfig.label.apType']}"
+                                          sortBy="#{apDomain.type}">
+                                    <p:outputLabel value="#{apDomain.type}" />
+                                </p:column>
+                                <p:column headerText="#{lang['apConfig.label.apName']}"
+                                          sortBy="#{apDomain.name}">
+                                    <p:outputLabel value="#{apDomain.name}" />
+                                </p:column>
+                                <p:column headerText="#{lang['apConfig.label.apCode']}"
+                                          sortBy="#{apDomain.code}">
+                                    <p:outputLabel value="#{apDomain.code}" />
+                                </p:column>
+                                <p:column headerText="#{lang['apConfig.label.apValue']}"
+                                          sortBy="#{apDomain.value}">
+                                    <p:outputLabel value="#{apDomain.value}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.status']}"  styleClass="al-center"
+                                          sortBy="#{apDomain.status}">
+                                    <p:outputLabel value="#{apDomain.status == 1 ? lang['common.label.status.active'] : lang['common.label.status.inactive']}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}" styleClass="al-center">
+                                    <p:commandLink actionListener="#{apDomainController.prepareToShowUpdate(apDomain)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgAddApDomain').show()}"
+                                                   update="@([id$=frmAddApDomain])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-edit" /></p:commandLink>
+                                    <sn:confirmDialog
+                                            renderedBtn="#{apDomain.status == 1}"
+                                            idComponent="btnDeleteOne"
+                                            titleButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionOK="#{apDomainController.delete}"
+                                            actionValidate="#{apDomainController.prepareDeleteOne(apDomain)}"
+                                            iconButton="ui-icon ui-icon-delete"
+                                            process="@this"
+                                            valueButton=""
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            isButton="false"/>
+                                </p:column>
+                                <p:column selectionMode="multiple" style="width: 5%" styleClass="al-center"/>
+
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgAddApDomain"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{apDomainController.headerDialog}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgAddApDomain.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

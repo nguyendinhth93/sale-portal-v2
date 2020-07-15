@@ -1,0 +1,165 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['creditscore.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['creditscore.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['creditscore.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['creditscore.programcode.label']}"/>
+                                <p:selectOneMenu id="programCode" filter="true" filterMatchMode="startsWith"
+                                                 value="#{creditScoringController.lazyLoadCreditScoring.requestSearchDTO.programCode}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{creditScoringController.campaignDTOs}"
+                                                   var="campaignDTO"
+                                                   itemValue="#{campaignDTO.programCode}"
+                                                   itemLabel="#{campaignDTO.programCode}"
+                                    />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['creditscore.isdn.label']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{creditScoringController.lazyLoadCreditScoring.requestSearchDTO.isdn}"/>
+
+                                <p:outputLabel value="#{lang['creditscore.score.label']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{creditScoringController.lazyLoadCreditScoring.requestSearchDTO.creditScoring}"/>
+
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{creditScoringController.lazyLoadCreditScoring}"
+                                    var="creditScoring"
+                                    rowIndexVar="index"
+                                    rowKey="#{creditScoring.key}"
+                                    lazy="true"
+                                    disabledSelection="#{creditScoring.status == 0}"
+                                    selection="#{creditScoringController.lazyLoadCreditScoring.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <p:commandButton value="#{lang['common.btn.add']}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgCreditScoring').show()}"
+                                                     actionListener="#{creditScoringController.prepareToShowAdd}"
+                                                     update="@([id$=frmCreditScoring])"
+                                                     process="@this"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-add">
+                                    </p:commandButton>
+                                    <sn:confirmDialog
+                                            idComponent="btnDelete"
+                                            valueButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionValidate="#{creditScoringController.validateBeforeDelete}"
+                                            actionOK="#{creditScoringController.delete}"
+                                            styleClassButton="red-btn"
+                                            styleButton="float: right"
+                                            iconButton="ui-icon-delete"
+                                            process="@this, @([id$=tblResultSearch])"
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            isButton="true"/>
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%" styleClass="al-center">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['creditscore.programcode.label']}"
+                                          sortBy="#{creditScoring.programCode}">
+                                    <p:outputLabel value="#{creditScoring.programCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['creditscore.isdn.label']}"
+                                          sortBy="#{creditScoring.isdn}">
+                                    <p:outputLabel value="#{creditScoring.isdn}" />
+                                </p:column>
+                                <p:column headerText="#{lang['creditscore.score.label']}"
+                                          sortBy="#{creditScoring.creditScoring}">
+                                    <p:outputLabel value="#{creditScoring.creditScoring}" />
+                                </p:column>
+                                <p:column headerText="#{lang['creditscore.label.status']}"  styleClass="al-center"
+                                          sortBy="#{creditScoring.statusDes}">
+                                    <p:outputLabel value="#{creditScoring.statusDes == 0 ? lang['creditscore.label.status.pending'] : lang['creditscore.label.status.success']}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.status']}"  styleClass="al-center"
+                                          sortBy="#{creditScoring.status}">
+                                    <p:outputLabel value="#{creditScoring.status == 1 ? lang['common.label.status.active'] : lang['common.label.status.inactive']}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}" styleClass="al-center">
+                                    <p:commandLink actionListener="#{creditScoringController.prepareToShowUpdate(creditScoring)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgCreditScoring').show()}"
+                                                   update="@([id$=frmCreditScoring])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-edit" /></p:commandLink>
+                                    <sn:confirmDialog
+                                            renderedBtn="#{creditScoring.status == 1}"
+                                            idComponent="btnDeleteOne"
+                                            titleButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionOK="#{creditScoringController.delete}"
+                                            actionValidate="#{creditScoringController.prepareDeleteOne(creditScoring)}"
+                                            iconButton="ui-icon ui-icon-delete"
+                                            process="@this"
+                                            valueButton=""
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            isButton="false"/>
+                                </p:column>
+                                <p:column selectionMode="multiple" style="width: 5%" styleClass="al-center"/>
+
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgCreditScoring"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{creditScoringController.headerDialog}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgCreditScoring.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

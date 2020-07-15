@@ -1,0 +1,50 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmDsaReturnCca">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['input.meeting.dsa.note.label']}" for="dsaNote"/>
+                    <p:outputPanel>
+                        <p:inputTextarea id="dsaNote" maxlength="1000" autoResize="true" rows="10"
+                                     converter="stringTrimmer" required="true"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     value="#{inputMeetingController.currentDsaResultMeeting.dsaNote}">
+                        </p:inputTextarea>
+                        <p:message for="dsaNote" />
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSaveInput"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{inputMeetingController.validateBeforeSaveNote}"
+                    actionOK="#{inputMeetingController.saveOrUpdateReturnCca}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmDsaReturnCca])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmDsaReturnCca])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgReturnCca').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

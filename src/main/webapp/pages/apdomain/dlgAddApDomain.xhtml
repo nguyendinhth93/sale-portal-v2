@@ -1,0 +1,105 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:o="http://java.sun.com/jsf/core">
+    <h:form id="frmAddApDomain">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['apConfig.label.apType']}" for="apType"/>
+                    <p:outputPanel>
+                        <p:inputText id="apType" required="true" maxlength="30"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{apDomainController.currentApDomain.type}">
+                            <f:validateRegex pattern="[0-9a-zA-Z_]+" />
+                        </p:inputText>
+                        <p:message for="apType" />
+                    </p:outputPanel>
+
+
+                    <p:outputLabel value="#{lang['apConfig.label.apName']}" for="apName"/>
+                    <p:outputPanel>
+                        <p:inputText id="apName" required="true" maxlength="200"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.vietnamese']}"
+                                     value="#{apDomainController.currentApDomain.name}" converter="stringTrimmer">
+                            <f:validateRegex pattern="[\p{Ll}\p{Lu}0-9a-zA-Z_ ]+" />
+                        </p:inputText>
+                        <p:message for="apName" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['apConfig.label.apCode']}" for="apCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="apCode" required="true" maxlength="30"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{apDomainController.currentApDomain.code}" converter="stringTrimmer">
+                            <f:validateRegex pattern="[0-9a-zA-Z_]+" />
+                        </p:inputText>
+                        <p:message for="apCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['apConfig.label.apValue']}" for="apValue"/>
+                    <p:outputPanel>
+                        <p:inputText id="apValue" required="true" maxlength="2000"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     value="#{apDomainController.currentApDomain.value}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="apValue" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['common.label.status']}" for="apStatus"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu required="true" id="apStatus"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{apDomainController.currentApDomain.status}">
+                            <f:selectItem itemValue="1" itemLabel="#{lang['common.label.status.active']}"/>
+                            <f:selectItem itemValue="0" itemLabel="#{lang['common.label.status.inactive']}"/>
+                        </p:selectOneMenu>
+                        <p:message for="apStatus" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['apConfig.label.apDesc']}" for="apDesc"/>
+                    <p:outputPanel>
+                        <p:inputTextarea id="apDesc" maxlength="2000" autoResize="false"
+                                         value="#{apDomainController.currentApDomain.description}" converter="stringTrimmer"/>
+                        <p:message for="apDesc" />
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <!--<p:commandButton value="#{lang['common.btn.save']}" update="@([id$=frmAddApDomain])" icon="ui-icon-save"
+                             actionListener="#{apDomainController.saveOrUpdate}" style="margin-right: 5px"/>-->
+            <sn:confirmDialog
+                    idComponent="btnSave"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{apDomainController.validateBeforeSave}"
+                    actionOK="#{apDomainController.saveOrUpdate}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmAddApDomain])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmAddApDomain])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgAddApDomain').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

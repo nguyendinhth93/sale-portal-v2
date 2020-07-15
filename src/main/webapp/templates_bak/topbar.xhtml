@@ -1,0 +1,56 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:c4f="http://primefaces.org/c4ftheme"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+>
+    <div class="topbar clearfix">
+        <div class="topbar-left">
+            <p:outputPanel rendered="#{menuBean.userInfo.daiLy ==1}">
+                <!--<div class="supermaster"></div>-->
+                <span style="color: white;font-family:Arial; display: inline-block;
+                        vertical-align: middle; font-size: 30px;
+                      ">#{lang['common.logo.super.master']}</span>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{menuBean.userInfo.daiLy ==2}">
+                <!--<div class="master"></div>-->
+                <span style="color: white;font-family:Arial; display: inline-block;
+                        vertical-align: middle; font-size: 30px;
+                      ">#{lang['common.logo.master']}</span>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{menuBean.userInfo.daiLy ==3}">
+                   <span style="color: white;font-family:Arial; display: inline-block;
+                        vertical-align: middle; font-size: 30px;
+                      ">#{lang['common.logo.agent.lv1']}</span>
+            </p:outputPanel>
+            <p:outputPanel rendered="#{menuBean.userInfo.daiLy ==100}">
+                <span style="color: white;font-family:Arial; display: inline-block;
+                        vertical-align: middle; font-size: 30px;
+                      ">#{lang['common.logo.agent.lv2']}</span>
+            </p:outputPanel>
+        </div>
+        <h:form>
+            <div class="topbar-right">
+                <a id="menu-button" href="#">
+                    <i></i>
+                </a>
+                <a id="topbar-menu-button" href="#">
+                    <i class="material-icons"></i>
+                </a>
+                <ul class="topbar-items fadeInDown animated">
+                    <li class="profile-item">
+                        <a href="#">
+                            <!--<p:outputPanel class="profile-image" id="profileSetting"/>-->
+                            <span class="topbar-item-name-main">
+                                <span style="font-size: medium">#{lang['common.welcome']}</span>  #{menuBean.userInfo.nickname}</span>
+                            <c4f:menu model="#{menuBean.profileMenu}"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </h:form>
+        <div id="particles_config"></div>
+    </div>
+
+</ui:composition>

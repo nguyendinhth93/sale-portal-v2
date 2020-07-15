@@ -1,0 +1,378 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['distribute.meeting.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['distribute.meeting.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['distribute.meeting.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['distribute.meeting.province.label']}"/>
+                                <p:selectOneMenu id="province" filter="true" filterMatchMode="contains"
+                                                 value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.provinceMeetingCode}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{distributeMeetingController.lstProvinces}"
+                                                   var="areaDTO"
+                                                   itemValue="#{areaDTO.code}"
+                                                   itemLabel="#{areaDTO.name}"
+                                    />
+                                    <p:ajax listener="#{distributeMeetingController.getListDistrictByProvinceId(distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.provinceMeetingCode)}" update="district" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.district.label']}"/>
+                                <p:selectCheckboxMenu id="district"
+                                                      filter="true"
+                                                      showCheckbox="true"
+                                                      styleClass="Container90"
+                                                      filterMatchMode="contains"
+                                                      label="#{distributeMeetingController.listCheckBoxLabel[lang['distribute.meeting.district.label']]}"
+                                                      value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.districtMeetingCodes}"
+                                                      onHide="updateLabelDistrict();">
+                                    <f:selectItems value="#{distributeMeetingController.lstDistricts}"
+                                                   var="areaDTO"
+                                                   itemValue="#{areaDTO.code}"
+                                                   itemLabel="#{areaDTO.name}"/>
+                                    <p:remoteCommand name="updateLabelDistrict" update="district"
+                                                     process="@this,district"
+                                                     actionListener="#{distributeMeetingController.updateLabelSelectCheckbox(lang['distribute.meeting.district.label'], distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.districtMeetingCodes)}"/>
+                                </p:selectCheckboxMenu>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.assigne.label.status']}" />
+                                <p:selectOneMenu filter="true" filterMatchMode="contains" value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.assigned}">
+                                    <f:selectItem itemLabel="#{lang['common.label.choose']}" />
+                                    <f:selectItem itemValue="1" itemLabel="#{lang['distribute.meeting.assigned.status.label']}"/>
+                                    <f:selectItem itemValue="0" itemLabel="#{lang['distribute.meeting.not.assigne.label.status']}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.type.label.status']}" />
+                                <p:selectOneMenu filter="true" filterMatchMode="contains" value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.typeMeeting}">
+                                    <f:selectItem itemLabel="#{lang['common.label.choose']}" />
+                                    <f:selectItem itemValue="0" itemLabel="#{lang['distribute.meeting.type.new.status.label']}"/>
+                                    <f:selectItem itemValue="1" itemLabel="#{lang['distribute.meeting.type.old.status.label']}"/>
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.call.date.from.label']}" />
+                                <p:calendar value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.fromCallDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="fromCalldate" navigator="true" styleClass="cal fromcalldate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.call.date.to.label']}" />
+                                <p:calendar value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.toCallDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toCalldate" navigator="true" styleClass="cal tocalldate"
+                                            widgetVar="callTodateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.assigne.date.label']}" />
+                                <p:calendar value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.assignDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="assigneDate" navigator="true" styleClass="cal assigneDate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.from.meet.date.label']}" />
+                                <p:calendar value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.fromMeetDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="fromMeetdate" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.to.meet.date.label']}" />
+                                <p:calendar value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.toMeetDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toMeetdate" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+
+                                <p:outputLabel value="#{lang['distribute.meeting.dsa.label']}" />
+                                <p:selectCheckboxMenu id="dsa"
+                                                      filter="true"
+                                                      showCheckbox="true"
+                                                      styleClass="Container90"
+                                                      filterMatchMode="contains"
+                                                      label="#{distributeMeetingController.listCheckBoxLabel[lang['distribute.meeting.dsa.label']]}"
+                                                      value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.dsaCodes}"
+                                                      onHide="updateLabelDsa();">
+                                    <f:selectItems value="#{distributeMeetingController.lstDSAs}"
+                                                   var="dsa"
+                                                   itemValue="#{distributeMeetingController.toUpperCase(dsa.userName)}"
+                                                   itemLabel="#{dsa.userName} - #{dsa.fullName}"/>
+                                    <p:remoteCommand name="updateLabelDsa" update="dsa"
+                                                     process="@this,dsa"
+                                                     actionListener="#{distributeMeetingController.updateLabelSelectCheckbox(lang['distribute.meeting.dsa.label'], distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.dsaCodes)}"/>
+                                </p:selectCheckboxMenu>
+
+
+                                <p:outputLabel value="#{lang['distribute.meeting.status.label']}" />
+                                <p:selectCheckboxMenu id="meetingResult"
+                                                      filter="true"
+                                                      showCheckbox="true"
+                                                      styleClass="Container90"
+                                                      filterMatchMode="contains"
+                                                      label="#{distributeMeetingController.listCheckBoxLabel[lang['distribute.meeting.status.label']]}"
+                                                      value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.meetingResults}"
+                                                      onHide="updateLabelMeetingResult();">
+                                    <f:selectItems
+                                            value="#{distributeMeetingController.meetingResults}"
+                                            var="meetingResult"
+                                            itemValue="#{meetingResult.value}"
+                                            itemLabel="#{meetingResult.name}"/>
+                                    <f:selectItem itemValue="-1" itemLabel="#{lang['update.meeting.accept.status.value.null']}" />
+                                    <p:remoteCommand name="updateLabelMeetingResult" update="meetingResult"
+                                                     process="@this,meetingResult"
+                                                     actionListener="#{distributeMeetingController.updateLabelSelectCheckbox(lang['distribute.meeting.status.label'], distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.meetingResults)}"/>
+                                </p:selectCheckboxMenu>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.accept.status.lbl']}"/>
+                                <p:selectOneMenu id="acceptStatus" filter="true" filterMatchMode="startsWith"
+                                                 value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.acceptStatus}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{distributeMeetingController.ccaAcceptStatus}"
+                                                   var="ccaAcceptStatus"
+                                                   itemValue="#{ccaAcceptStatus.value}"
+                                                   itemLabel="#{ccaAcceptStatus.name}"
+                                    />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['distribute.meeting.isdn.label']}" />
+                                <p:inputText id="isdn" maxlength="30"
+                                             value="#{distributeMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.customerPhone}" converter="stringTrimmer">
+                                </p:inputText>
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                        <p:commandButton value="#{lang['common.btn.export']}"
+                                         ajax="false"
+                                         process="@this, @([id$=searchForm])"
+                                         action="#{distributeMeetingController.exportData}"
+                                         icon="ui-icon-file-download" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{distributeMeetingController.lazyLoadDsaResultMeeting}"
+                                    var="dsaResultMeeting"
+                                    rowIndexVar="index"
+                                    rowKey="#{dsaResultMeeting.key}"
+                                    lazy="true"
+                                    reflow="true"
+                                    disabledSelection="#{dsaResultMeeting.status == 0}"
+                                    selection="#{distributeMeetingController.lazyLoadDsaResultMeeting.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default.20']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition.top']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <p:commandButton value="#{lang['common.btn.assigne']}"
+                                                     rendered="#{distributeMeetingController.renderBtnAssigne}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgDistributeMeeting').show()}"
+                                                     actionListener="#{distributeMeetingController.validateBeforeAssigne}"
+                                                     update="@([id$=frmDistributeMeeting])"
+                                                     process="@this,@([id$=tblResultSearch])"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-person">
+                                    </p:commandButton>
+                                    <p:commandButton value="#{lang['distribute.meeting.title.dlg.update.meeting.date']}"
+                                                     rendered="#{distributeMeetingController.renderBtnUpdateMeetingDate}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgUpdateMeeting').show()}"
+                                                     actionListener="#{distributeMeetingController.validateBeforeUpdateMeetingDate}"
+                                                     update="@([id$=frmUpdateMeeting])"
+                                                     process="@this,@([id$=tblResultSearch])"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-pencil">
+                                    </p:commandButton>
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.customer.name.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.customerName}" title="#{dsaResultMeeting.customerName}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.isdn.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.customerPhone}" title="#{dsaResultMeeting.customerPhone}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.partner.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.partnerCode}" title="#{dsaResultMeeting.partnerCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['input.meeting.boundcode.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.boundCode}" title="#{dsaResultMeeting.boundCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['update.meeting.product.type.label']}">
+                                    <p:outputLabel value="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_PRODUCT_TYPE',dsaResultMeeting.productType)}"
+                                                   title="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_PRODUCT_TYPE',dsaResultMeeting.productType)}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.province.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.provinceMeetingName}" title="#{dsaResultMeeting.provinceMeetingName}" />
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.district.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.districtMeetingName}" title="#{dsaResultMeeting.districtMeetingName}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.location.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.meetingAddress}" title="#{dsaResultMeeting.meetingAddress}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.tl.dsa.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.tlDsaCode}" title="#{dsaResultMeeting.tlDsaCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.dsa.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.dsaCode}" title="#{dsaResultMeeting.dsaCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.call.date.label']}">
+                                    <p:outputLabel value="#{distributeMeetingController.convertDateToString(dsaResultMeeting.callDate)}"
+                                                   title="#{distributeMeetingController.convertDateToString(dsaResultMeeting.callDate)}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.meet.date.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.meetingDate eq null ? distributeMeetingController.convertDateToString(dsaResultMeeting.ccaMeetingDate) : distributeMeetingController.convertDateToString(dsaResultMeeting.meetingDate)}"
+                                                   title="#{dsaResultMeeting.meetingDate eq null ? distributeMeetingController.convertDateToString(dsaResultMeeting.ccaMeetingDate) : distributeMeetingController.convertDateToString(dsaResultMeeting.meetingDate)}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.valid.date.label']}">
+                                    <p:outputLabel value="#{distributeMeetingController.convertDateToString(dsaResultMeeting.validDate)}"
+                                                   title="#{distributeMeetingController.convertDateToString(dsaResultMeeting.validDate)}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['distribute.meeting.status.label']}">
+                                    <p:outputLabel value="#{dsaResultMeeting.meetingResultName}"
+                                                   title="#{dsaResultMeeting.meetingResultName}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['update.meeting.accept.status.lbl']}">
+                                    <p:outputLabel value="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_CCA_ACCEPT_STATUS',dsaResultMeeting.acceptStatus)}"
+                                                   title="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_CCA_ACCEPT_STATUS',dsaResultMeeting.acceptStatus)}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}"  styleClass="al-center">
+                                    <p:commandLink actionListener="#{distributeMeetingController.prepareShowHistoryMeeting(dsaResultMeeting)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgDistributeMeetingLog').show()}"
+                                                   update="@([id$=frmDistributeMeetingLog])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.history']}"><i class="ui-icon ui-icon-circle-zoomout" /></p:commandLink>
+                                    <p:commandLink actionListener="#{distributeMeetingController.prepareUpdate(dsaResultMeeting)}" rendered="#{distributeMeetingController.renderBtnUpdate}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgUpdateDistributeMeeting').show()}"
+                                                   update="@([id$=frmUpdateDistributeMeeting])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-pencil" /></p:commandLink>
+                                    <p:commandLink actionListener="#{distributeMeetingController.prepareSearchResultBO(dsaResultMeeting)}"
+                                                   disabled="#{dsaResultMeeting.meetingResult ne 1}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgResultMeetingBO').show()}"
+                                                   update="@([id$=frmResultMeetingBO])"
+                                                   process="@this"
+                                                   title="#{lang['update.meeting.label.search.meeting.bo']}"><i class="ui-icon ui-icon-search" /></p:commandLink>
+                                </p:column>
+                                <p:column selectionMode="multiple" style="width: 5%" styleClass="al-center"/>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+        <p:dialog widgetVar="dlgDistributeMeeting"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['common.btn.assigne']}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgDistributeMeeting.xhtml"/>
+        </p:dialog>
+        <p:dialog widgetVar="dlgResultMeetingBO"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['update.meeting.label.search.meeting.bo']}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgResultMeetingBO.xhtml"/>
+        </p:dialog>
+        <p:dialog widgetVar="dlgUpdateMeeting"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['distribute.meeting.title.dlg.update.meeting.date']}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgUpdateMeeting.xhtml"/>
+        </p:dialog>
+        <p:dialog widgetVar="dlgDistributeMeetingLog"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{distributeMeetingController.headerDialog}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgDistributeMeetingLog.xhtml"/>
+        </p:dialog>
+        <p:dialog widgetVar="dlgImport"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['distribute.meeting.title.dlg.import']}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  position="center"
+                  responsive="true">
+            <ui:include src="dlgImport.xhtml"/>
+        </p:dialog>
+        <p:dialog widgetVar="dlgUpdateDistributeMeeting"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['distribute.meeting.title.dlg.update']}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  position="center"
+                  responsive="true">
+            <ui:include src="dlgUpdateDistributeMeeting.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

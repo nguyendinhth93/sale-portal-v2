@@ -1,0 +1,93 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmImportResultMeeting">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['common.date.file.data']}" for="outputAttachFile"/>
+                    <p:outputPanel>
+                        <p:inputText id="outputAttachFile"
+                                     styleClass="outputAttachFile"
+                                     maxlength="100"
+                                     required="true"
+                                     placeholder="#{lang['common.date.number.range.input.fileName']}"
+                                     value="#{distributeMeetingController.fileNameImport}"
+                                     readonly="true"/>
+                        <p:message for="outputAttachFile"></p:message>
+                    </p:outputPanel>
+
+                    <p:outputPanel>
+                        <p:fileUpload id="fileAttach"
+                                      process="@this"
+                                      label="#{lang['select.file']}"
+                                      update="@this, @([id$=outputAttachFile]),@([id$=messagesImport]),@([id$=pnDown])"
+                                      dragDropSupport="true" required="true" mode="advanced"
+                                      auto="true"
+                                      allowTypes="/(\.|\/)(xls|xlsx)$/"
+                                      invalidFileMessage="#{lang['common.rule.invalid.file.type']}"
+                                      value="#{distributeMeetingController.uploadedFileImport}"
+                                      fileUploadListener="#{distributeMeetingController.fileUploadImportAction}">
+                        </p:fileUpload>
+                    </p:outputPanel>
+
+                    <p:outputPanel>
+                        <p:commandLink
+                                id="btnDownloadTemplate"
+                                value="#{lang['common.template.file.download.lbl']}"
+                                rendered="#{empty distributeMeetingController.listError}"
+                                title="#{lang['common.template.file.download.lbl']}"
+                                ajax="false"
+                                immediate="true"
+                                actionListener="#{distributeMeetingController.downloadFileTemplate()}"
+                                style="text-decoration: none!important;">
+                            <p:fileDownload
+                                    value="#{distributeMeetingController.downloadFileTemplate}"/>
+                        </p:commandLink>
+
+                        <p:commandLink
+                                id="bthDownloadError"
+                                value="#{lang['common.error.download.file.title']}"
+                                rendered="#{not empty distributeMeetingController.listError}"
+                                title="#{lang['common.error.download.file.title']}"
+                                ajax="false"
+                                immediate="true"
+                                style="text-decoration: none!important;color: red !important;">
+                            <p:fileDownload
+                                    value="#{distributeMeetingController.downloadFileError()}"/>
+                        </p:commandLink>
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSaveInput"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{distributeMeetingController.validateBeforImport}"
+                    actionOK="#{distributeMeetingController.importResultMeeting}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmImportResultMeeting])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmImportResultMeeting])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgInputMeeting').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

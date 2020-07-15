@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template2.xhtml">
+    <ui:param name="bodyClass" value="login-body"/>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="card login-panel ui-fluid">
+                <div class="ui-g-12">
+                    <p:graphicImage value="#{resource['ultima-layout:images/logoTP_horizontal.svg']}"/>
+                </div>
+                <h:outputText style="color: red" rendered="#{not empty loginController.msgError}" value="#{loginController.msgError}"/>
+                <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank grid-pad" style="margin-top:10px">
+                    <p:outputLabel for="username" value="#{lang['login.label.username']}" style="float: left"/>
+                    <p:outputPanel>
+                        <p:inputText value="#{loginController.username}"
+                                     required="true"
+                                     validatorMessage="#{lang['common.msg.validate']}" id="username"
+                                     maxlength="20" requiredMessage="#{lang['common.msg.require']}">
+                        </p:inputText>
+                        <p:message for="username" />
+                    </p:outputPanel>
+
+                    <p:outputLabel for="password" value="#{lang['login.label.password']}" style="float: left"/>
+                    <p:outputPanel>
+                        <p:password value="#{loginController.password}"
+                                    validatorMessage="#{lang['common.msg.validate']}"
+                                    requiredMessage="#{lang['common.msg.require']}"
+                                    id="password" required="true" maxlength="20" />
+                        <p:message for="password" />
+                    </p:outputPanel>
+
+                </p:panelGrid>
+                <div class="ui-g-12">
+                    <p:commandButton value="#{lang['login.label.signin']}" update="@form" actionListener="#{loginController.login}" icon="ui-icon-person"/>
+                </div>
+            </div>
+        </h:form>
+
+        <div class="login-footer">TPC</div>
+    </ui:define>
+</ui:composition>

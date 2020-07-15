@@ -1,0 +1,74 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:o="http://java.sun.com/jsf/core">
+    <h:form id="frmUser">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['user.manage.label.username']}" for="username"/>
+                    <p:outputPanel>
+                        <p:inputText id="username" required="true" maxlength="30"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{functionController.currentUser.userName}">
+                            <f:validateRegex pattern="[0-9a-zA-Z_]+" />
+                        </p:inputText>
+                        <p:message for="username" />
+                    </p:outputPanel>
+
+
+                    <p:outputLabel value="#{lang['user.manage.label.fullname']}" for="fullname"/>
+                    <p:outputPanel>
+                        <p:inputText id="fullname" required="true" maxlength="200"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     value="#{functionController.currentUser.fullName}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="fullname" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['common.label.status']}" for="status"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu required="true" id="status"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{functionController.currentUser.status}">
+                            <f:selectItem itemValue="1" itemLabel="#{lang['common.label.status.active']}"/>
+                            <f:selectItem itemValue="0" itemLabel="#{lang['common.label.status.inactive']}"/>
+                        </p:selectOneMenu>
+                        <p:message for="status" />
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSave"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{functionController.validateBeforeSave}"
+                    actionOK="#{functionController.saveOrUpdate}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmUser])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmUser])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgFunction').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

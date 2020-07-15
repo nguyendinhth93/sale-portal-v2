@@ -1,0 +1,184 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['voice.summry.report.label.title']}</ui:define>
+    <ui:define name="content">
+        <style>
+            .red_row{
+                background-color:#e2baba !important;
+            }
+            .blue_row{
+                background-color:#cbe4ed !important;
+            }
+            .yellow_row{
+                background-color:#ede9cb !important;
+            }
+            .none_row{
+            }
+        </style>
+        <div class="card card-w-title">
+            <h1>#{lang['voice.summry.report.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['common.btn.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['voice.detail.report.label.team']}"/>
+                                <p:selectOneMenu id="province" filter="true" filterMatchMode="contains"
+                                                 value="#{voiceSummaryReportController.lazyLoadVoiceSummary.requestSearchDTO.teamCode}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{voiceSummaryReportController.teamDTOs}"
+                                                   var="teamDTO"
+                                                   itemValue="#{teamDTO.teamCode}"
+                                                   itemLabel="#{teamDTO.teamCode}"
+                                    />
+                                    <p:ajax listener="#{voiceSummaryReportController.findAllStaffCodeByTeam(voiceSummaryReportController.lazyLoadVoiceSummary.requestSearchDTO.teamCode)}" update="staffCode,voiceCode" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['voice.detail.report.label.staff.code']}"/>
+                                <p:selectOneMenu id="staffCode" filter="true" filterMatchMode="contains"
+                                                 value="#{voiceSummaryReportController.lazyLoadVoiceSummary.requestSearchDTO.staffCode}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{voiceSummaryReportController.staffCodes}"
+                                                   var="staffCode"
+                                                   itemValue="#{staffCode.userName}"
+                                                   itemLabel="#{staffCode.fullName}"
+                                    />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['voice.detail.report.label.voice.code']}"/>
+                                <p:selectOneMenu id="voiceCode" filter="true" filterMatchMode="contains"
+                                                 value="#{voiceSummaryReportController.lazyLoadVoiceSummary.requestSearchDTO.voiceCode}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{voiceSummaryReportController.staffCodes}"
+                                                   var="staffCode"
+                                                   itemValue="#{staffCode.voiceCode}"
+                                                   itemLabel="#{staffCode.voiceCode}"
+                                    />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['voice.detail.report.label.from.date']}" />
+                                <p:calendar value="#{voiceSummaryReportController.lazyLoadVoiceSummary.requestSearchDTO.fromDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="fromCalldate" navigator="true" styleClass="cal fromcalldate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['voice.detail.report.label.to.date']}" />
+                                <p:calendar value="#{voiceSummaryReportController.lazyLoadVoiceSummary.requestSearchDTO.toDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toCalldate" navigator="true" styleClass="cal tocalldate"
+                                            widgetVar="callTodateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                        <p:commandButton value="#{lang['common.btn.export']}"
+                                         ajax="false"
+                                         process="@this, @([id$=searchForm])"
+                                         action="#{voiceSummaryReportController.exportData}"
+                                         icon="ui-icon-file-download" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{voiceSummaryReportController.lazyLoadVoiceSummary}"
+                                    var="voiceSummary"
+                                    rowIndexVar="index"
+                                    rowKey="#{voiceSummary.key}"
+                                    lazy="true"
+                                    reflow="true"
+                                    selection="#{voiceSummaryReportController.lazyLoadVoiceSummary.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition.top']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['voice.detail.report.label.call.date']}">
+                                    <p:outputLabel value="#{voiceSummaryReportController.convertDateToString(voiceSummary.callDate)}"
+                                                   title="#{voiceSummaryReportController.convertDateToString(voiceSummary.callDate)}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.team']}">
+                                    <p:outputLabel value="#{voiceSummary.team}" title="#{voiceSummary.team}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.jtl.cca.code']}">
+                                    <p:outputLabel value="#{voiceSummary.jtlCcaCode}" title="#{voiceSummary.jtlCcaCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.detail.report.label.voice.code']}">
+                                    <p:outputLabel value="#{voiceSummary.voiceCode}" title="#{voiceSummary.voiceCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.staff.code']}">
+                                    <p:outputLabel value="#{voiceSummary.ccaCode}" title="#{voiceSummary.ccaCode}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.total.customer']}">
+                                    <p:outputLabel value="#{voiceSummary.totalCustomer}" title="#{voiceSummary.totalCustomer}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.total.call']}">
+                                    <p:outputLabel value="#{voiceSummary.totalCall}"
+                                                   title="#{voiceSummary.totalCall}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.on.call']}">
+                                    <p:outputLabel value="#{voiceSummary.onCall}"
+                                                   title="#{voiceSummary.onCall}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.answer']}">
+                                    <p:outputLabel value="#{voiceSummary.answered}"
+                                                   title="#{voiceSummary.answered}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.busy']}">
+                                    <p:outputLabel value="#{voiceSummary.busy}"
+                                                   title="#{voiceSummary.busy}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.failed']}">
+                                    <p:outputLabel value="#{voiceSummary.failed}"
+                                                   title="#{voiceSummary.failed}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.no.answer']}">
+                                    <p:outputLabel value="#{voiceSummary.noAnswer}"
+                                                   title="#{voiceSummary.noAnswer}"/>
+                                </p:column>
+                                <p:column headerText="#{lang['voice.summry.report.label.talktime.call']}">
+                                    <p:outputLabel value="#{voiceSummary.talkTime}"
+                                                   title="#{voiceSummary.talkTime}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,326 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['boFollowResult.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['boFollowResult.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['boFollowResult.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['distribute.meeting.province.label']}"/>
+                                <p:selectCheckboxMenu id="province"
+                                                      filter="true"
+                                                      showCheckbox="true"
+                                                      styleClass="Container90"
+                                                      filterMatchMode="contains"
+                                                      label="#{boFollowResultController.listCheckBoxLabel[lang['distribute.meeting.province.label']]}"
+                                                      value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.provinceList}"
+                                                      onHide="updateLabelProvince();">
+                                    <f:selectItems value="#{boFollowResultController.lstProvinces}"
+                                                   var="areaDTO"
+                                                   itemValue="#{areaDTO.code}"
+                                                   itemLabel="#{areaDTO.name}"/>
+                                    <p:remoteCommand name="updateLabelProvince" update="province"
+                                                     process="@this,province"
+                                                     actionListener="#{boFollowResultController.updateLabelSelectCheckbox(lang['distribute.meeting.province.label'], boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.provinceList)}"/>
+                                </p:selectCheckboxMenu>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.customerName']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.customerName}"/>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.customerPhone']}"/>
+                                <p:inputText maxlength="200" converter="stringTrimmer" value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.customerPhone}"/>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.nationalId']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.nationalId}"/>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.losCode']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.losCode}"/>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.toLosDate.from']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.toLosDateFrom}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toLosDateFrom" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.toLosDate.to']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.toLosDateTo}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toLosDateTo" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.status.vpbank']}" for="statusVpbank"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="statusVpbank" filter="true" filterMatchMode="contains"
+                                                     value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.statusDocVpBank}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{boFollowResultController.statusDocVpbanks}"
+                                                       var="statusDocVpbank"
+                                                       itemValue="#{statusDocVpbank.value}"
+                                                       itemLabel="#{statusDocVpbank.name}"
+                                        />
+                                        <f:selectItem itemValue="-1" itemLabel="#{lang['update.meeting.accept.status.value.null']}" escape="true"/>
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.toFiDate.from']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.toFiDateFrom}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toFiDateFrom" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.toFiDate.to']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.toFiDateTo}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="toFiDateTo" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.returnQdeDate.from']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.returnQdeDateFrom}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="returnQdeDateFrom" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.returnQdeDate.to']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.returnQdeDateTo}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="returnQdeDateTo" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boCheckupResult.label.assigne.status']}" for="assigneStatus"/>
+                                <p:outputPanel>
+                                    <p:selectOneMenu id="assigneStatus" filter="true" filterMatchMode="contains"
+                                                     value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.assigneStatus}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItem itemValue="0" itemLabel="#{lang['distribute.meeting.not.assigne.label.status']}" escape="true"/>
+                                        <f:selectItem itemValue="1" itemLabel="#{lang['distribute.meeting.assigned.status.label']}" escape="true"/>
+                                    </p:selectOneMenu>
+                                </p:outputPanel>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.assigne.date.from']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.assigneDateFrom}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="assigneDateFrom" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.assigne.date.to']}" />
+                                <p:calendar value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.assigneDateTo}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="assigneDateTo" navigator="true" styleClass="cal meetdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['boFollowResult.label.bo.follow']}" for="boFollow"/>
+                                <p:selectCheckboxMenu id="boFollow"
+                                                      filter="true"
+                                                      showCheckbox="true"
+                                                      styleClass="Container90"
+                                                      filterMatchMode="contains"
+                                                      label="#{boFollowResultController.listCheckBoxLabel[lang['boFollowResult.label.bo.follow']]}"
+                                                      value="#{boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.boFollows}"
+                                                      onHide="updateLabelStaff();">
+                                    <f:selectItems value="#{boFollowResultController.staffCodes}"
+                                                   var="staffCode"
+                                                   itemValue="#{boFollowResultController.toUpperCase(staffCode.userName)}"
+                                                   itemLabel="#{boFollowResultController.toUpperCase(staffCode.userName)}"/>
+                                    <p:remoteCommand name="updateLabelStaff" update="boFollow"
+                                                     process="@this,boFollow"
+                                                     actionListener="#{boFollowResultController.updateLabelSelectCheckbox(lang['boFollowResult.label.bo.follow'], boFollowResultController.lazyLoadBoFollowResult.requestSearchDTO.boFollows)}"/>
+                                </p:selectCheckboxMenu>
+
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                        <p:commandButton value="#{lang['common.btn.export']}"
+                                         ajax="false"
+                                         process="@this, @([id$=searchForm])"
+                                         action="#{boFollowResultController.exportData}"
+                                         icon="ui-icon-file-download" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{boFollowResultController.lazyLoadBoFollowResult}"
+                                    var="boCheckupResult"
+                                    rowIndexVar="index"
+                                    rowKey="#{boCheckupResult.key}"
+                                    lazy="true"
+                                    selection="#{boFollowResultController.lazyLoadBoFollowResult.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition.top']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <p:commandButton value="#{lang['common.btn.assigne']}"
+                                                     rendered="#{boFollowResultController.renderBtnAssigne}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgAssigneBoFollow').show()}"
+                                                     actionListener="#{boFollowResultController.validateBeforeAssigne}"
+                                                     update="@([id$=frmAsigneBoCheckup])"
+                                                     process="@this,@([id$=tblResultSearch])"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-person">
+                                    </p:commandButton>
+                                    <sn:confirmDialog
+                                            idComponent="btnDelete"
+                                            valueButton="#{lang['boFollowResult.btn.return.checkup']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionValidate="#{boFollowResultController.validateBeforeReturnCheckUp}"
+                                            actionOK="#{boFollowResultController.returnCheckUp}"
+                                            styleButton="float: left"
+                                            iconButton="ui-icon-navigate-next"
+                                            process="@this, @([id$=tblResultSearch])"
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            isButton="true"/>
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}"
+                                          style="width: 5%" styleClass="al-center">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.losCode']}">
+                                    <p:outputLabel value="#{boCheckupResult.losCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.customerName']}">
+                                    <p:outputLabel value="#{boCheckupResult.customerName}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.customerPhone']}">
+                                    <p:outputLabel value="#{boCheckupResult.customerPhone}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.nationalId']}">
+                                    <p:outputLabel value="#{boCheckupResult.nationalId}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.partner']}">
+                                    <p:outputLabel value="#{boCheckupResult.partnerCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.bound.code']}">
+                                    <p:outputLabel value="#{boCheckupResult.boundCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boCheckupResult.label.bound.code.dsa']}">
+                                    <p:outputLabel value="#{boCheckupResult.boundCodeDsa}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.bo.follow']}">
+                                    <p:outputLabel value="#{boCheckupResult.boFollow}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.toLosDate']}">
+                                    <p:outputLabel value="#{boFollowResultController.convertDateToString(boCheckupResult.toLosDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.toFiDate']}">
+                                    <p:outputLabel value="#{boFollowResultController.convertDateToString(boCheckupResult.toFiDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.returnQDEDate']}">
+                                    <p:outputLabel value="#{boFollowResultController.convertDateToString(boCheckupResult.returnResultQdeDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.status.vpbank']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{boFollowResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_STATUS_DOC_VPBANK',boCheckupResult.statusDocVpbank)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['boFollowResult.label.group.status.vpbank']}"  styleClass="al-center">
+                                    <p:outputLabel value="#{boFollowResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_GROUP_STATUS_DOC',boCheckupResult.groupDocStatus)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}" styleClass="al-center">
+                                    <p:commandLink actionListener="#{boFollowResultController.prepareToShowUpdate(boCheckupResult)}"
+                                                   disabled="#{boCheckupResult.boFollow ne null and boCheckupResult.boFollow ne boFollowResultController.userLoginSystem}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgBoFollowResult').show()}"
+                                                   update="@([id$=frmBoCheckupResult])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-edit" /></p:commandLink>
+                                    <p:commandLink actionListener="#{boFollowResultController.prepareToShowUpdate(boCheckupResult)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgViewBoFollowResult').show()}"
+                                                   update="@([id$=frmViewBoCheckupResult])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.viewDetail']}"><i class="ui-icon ui-icon-zoom-in" /></p:commandLink>
+                                </p:column>
+                                <p:column selectionMode="multiple" style="width: 5%" styleClass="al-center"/>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgBoFollowResult"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{boFollowResultController.headerDialog}"
+                  style="!important;max-height:90%;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="90%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgBoFollowResult.xhtml"/>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgViewBoFollowResult"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['common.btn.viewDetail']}"
+                  style="!important;max-height:90%;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="90%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgViewBoFollowResult.xhtml"/>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgAssigneBoFollow"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['common.btn.assigne']}"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  responsive="true">
+            <ui:include src="dlgAssigneBoFollow.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,207 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['input.meeting.label.title']}</ui:define>
+    <ui:define name="content">
+        <style>
+            .red_row{
+                background-color:#e2baba !important;
+            }
+            .blue_row{
+                background-color:#cbe4ed !important;
+            }
+            .yellow_row{
+                background-color:#ede9cb !important;
+            }
+            .none_row{
+            }
+            body .ui-widget-content {
+                border: 2px solid #9c9999 !important;
+            }
+        </style>
+        <div class="card card-w-title">
+            <h1>#{lang['input.meeting.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <p:panel id="toggleable" header="#{lang['distribute.meeting.label.title.search']}" toggleable="true" collapsed="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12">
+                                <p:panelGrid columns="6"
+                                             layout="grid"
+                                             columnClasses="ui-grid-col-1,ui-grid-col-3"
+                                             styleClass="ui-panelgrid-blank form-group"
+                                             style="border:0px none; background-color:transparent;">
+                                    <p:outputLabel value="#{lang['input.meeting.phone.label']}" />
+                                    <p:inputText maxlength="30" converter="stringTrimmer" value="#{inputMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.customerPhone}"/>
+
+                                    <p:outputLabel value="#{lang['distribute.meeting.district.label']}"/>
+                                    <p:selectOneMenu id="province" filter="true" filterMatchMode="startsWith"
+                                                     value="#{inputMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.districtMeetingCode}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{inputMeetingController.lstDistrictDsas}"
+                                                       var="areaDTO"
+                                                       itemValue="#{areaDTO.code}"
+                                                       itemLabel="#{areaDTO.name}"
+                                        />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="#{lang['distribute.meeting.accept.status.lbl']}"/>
+                                    <p:selectOneMenu id="acceptStatus" filter="true" filterMatchMode="startsWith"
+                                                     value="#{inputMeetingController.lazyLoadDsaResultMeeting.requestSearchDTO.acceptStatus}">
+                                        <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                        <f:selectItems value="#{inputMeetingController.ccaAcceptStatus}"
+                                                       var="ccaAcceptStatus"
+                                                       itemValue="#{ccaAcceptStatus.value}"
+                                                       itemLabel="#{ccaAcceptStatus.name}"
+                                        />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="#{lang['input.meeting.cca.note.endable.label']}" />
+                                    <p:selectBooleanCheckbox value="#{inputMeetingController.renderCcaNoteFlag}">
+                                        <p:ajax process="@this" update="@([id$=tblResultSearch])" listener="#{inputMeetingController.checkOrUnCheckCcaNoteFlag()}" />
+                                    </p:selectBooleanCheckbox>
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;" class="al-center">
+                            <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                             onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                             process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                        </div>
+                    </p:panel>
+                </p:outputPanel>
+                <div class="ui-g ui-fluid" style="clear: right">
+                    <p:dataTable
+                            id="tblResultSearch"
+                            widgetVar="tblResultSearch"
+                            value="#{inputMeetingController.lazyLoadDsaResultMeeting}"
+                            var="dsaResultMeeting"
+                            rowIndexVar="index"
+                            rowKey="#{dsaResultMeeting.key}"
+                            lazy="true"
+                            reflow="true"
+                            disabledSelection="#{dsaResultMeeting.status == 0}"
+                            rowStyleClass="#{dsaResultMeeting.meetingResult ne null ? 'yellow_row' : 'none_row'}"
+                            selection="#{inputMeetingController.lazyLoadDsaResultMeeting.selectedList}"
+                            paginator="#{lang['common.paging.paginator']}"
+                            rows="#{lang['common.paging.rows.default1']}"
+                            rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                            paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                            paginatorPosition="#{lang['common.paging.paginatorPosition']}"
+                            paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                            currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                            emptyMessage="#{lang['common.empty.records']}">
+                        <p:column headerText="#{lang['input.meeting.customer.name.label']}">
+                            <p:outputLabel value="#{dsaResultMeeting.customerName}" />
+                        </p:column>
+                        <p:column headerText="#{lang['input.meeting.phone.label']}">
+                            <h:outputLink escape="false" value="tel:139#{dsaResultMeeting.customerPhone}">
+                                <h:outputText value="#{dsaResultMeeting.customerPhone}" />
+                            </h:outputLink>
+                        </p:column>
+                        <p:column headerText="#{lang['input.meeting.boundcode.label']}">
+                            <p:outputLabel value="#{inputMeetingController.generateMeetingStatus(dsaResultMeeting.boundCode,dsaResultMeeting.meetingResultName)}" />
+                        </p:column>
+                        <p:column headerText="#{lang['update.meeting.product.type.label']}">
+                            <p:outputLabel value="#{inputMeetingController.convertOptionSetByCodeAndValue('SALE_PRODUCT_TYPE',dsaResultMeeting.productType)}"
+                                           title="#{inputMeetingController.convertOptionSetByCodeAndValue('SALE_PRODUCT_TYPE',dsaResultMeeting.productType)}"/>
+                        </p:column>
+                        <p:column headerText="#{lang['input.meeting.limit.label']}">
+                            <p:outputLabel value="#{inputMeetingController.convertNumberUsingCurrentLocate(dsaResultMeeting.limit)}" />
+                        </p:column>
+                        <p:column headerText="#{lang['input.meeting.limit.card.label']}">
+                            <p:outputLabel value="#{inputMeetingController.convertNumberUsingCurrentLocate(dsaResultMeeting.limitCard)}" />
+                        </p:column>
+                        <p:column headerText="#{lang['distribute.meeting.district.label']}">
+                            <p:outputLabel value="#{dsaResultMeeting.districtMeetingName}" />
+                        </p:column>
+                        <p:column headerText="#{lang['distribute.meeting.location.label']}">
+                            <p:outputLabel value="#{dsaResultMeeting.meetingAddress}" />
+                        </p:column>
+                        <p:column headerText="#{lang['distribute.meeting.time.label']}">
+                            <p:outputLabel value="#{dsaResultMeeting.meetingTime}" />
+                        </p:column>
+                        <p:column headerText="#{lang['input.meeting.cca.note.label']}" rendered="#{inputMeetingController.renderCcaNoteFlag}">
+                            <p:outputLabel value="#{dsaResultMeeting.ccaNote}" />
+                        </p:column>
+                        <p:column headerText="#{lang['input.meeting.dsa.note.label']}">
+                            <p:commandLink actionListener="#{inputMeetingController.prepareToShowUpdateNoteDsa(dsaResultMeeting)}"
+                                           oncomplete="if(!args.validationFailed){PF('dlgInputNoteDsa').show()}"
+                                           update="@([id$=frmDsaResultMeetingNote])"
+                                           process="@this"
+                                           title="#{lang['input.meeting.btn.update.note.dsa']}"><i class="ui-icon ui-icon-document" /></p:commandLink>
+                            <p:outputLabel value="#{dsaResultMeeting.dsaNote}" />
+                        </p:column>
+                        <p:column headerText="#{lang['update.meeting.cca.follow.lbl']}">
+                            <p:outputLabel value="#{inputMeetingController.convertOptionSetByCodeAndValue('SALE_CCA_ACCEPT_STATUS',dsaResultMeeting.acceptStatus)}"
+                                           title="#{inputMeetingController.convertOptionSetByCodeAndValue('SALE_CCA_ACCEPT_STATUS',dsaResultMeeting.acceptStatus)}"/>
+                        </p:column>
+                        <p:column headerText="#{lang['distribute.meeting.return.cca.lbl']}">
+                            <p:commandLink actionListener="#{inputMeetingController.prepareToShowUpdateNoteDsa(dsaResultMeeting)}"
+                                           oncomplete="if(!args.validationFailed){PF('dlgReturnCca').show()}"
+                                           update="@([id$=frmDsaReturnCca])"
+                                           process="@this"
+                                           title="#{lang['distribute.meeting.return.cca.lbl']}"><i class="ui-icon ui-icon-refresh" /></p:commandLink>
+                        </p:column>
+                        <p:column headerText="#{lang['common.label.action']}">
+                            <p:commandLink actionListener="#{inputMeetingController.prepareToShowUpdate(dsaResultMeeting)}"
+                                           oncomplete="if(!args.validationFailed){PF('dlgInputMeeting').show()}"
+                                           update="@([id$=frmDsaResultMeeting])"
+                                           process="@this"
+                                           title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-edit" /></p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgInputMeeting"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{inputMeetingController.headerDialog}"
+                  style="!important;max-height:90%;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  position="top"
+                  responsive="true">
+            <ui:include src="dlgInputMeeting.xhtml"/>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgInputNoteDsa"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['input.meeting.note.title.dlg.update']}"
+                  style="!important;max-height:90%;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  position="top"
+                  responsive="true">
+            <ui:include src="dlgInputNoteDsa.xhtml"/>
+        </p:dialog>
+        <p:dialog widgetVar="dlgReturnCca"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{lang['distribute.meeting.return.cca.lbl']}"
+                  style="!important;max-height:90%;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  position="top"
+                  responsive="true">
+            <ui:include src="dlgReturnCca.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg62"
+   version="1.1"
+   viewBox="0 0 309.34 67.08">
+  <metadata
+     id="metadata66">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs30">
+    <style
+       id="style2">.cls-1{fill:#003461;}.cls-2{fill:url(#New_Gradient_Swatch_2);}.cls-3{fill:url(#New_Gradient_Swatch_2-2);}.cls-4{fill:url(#New_Gradient_Swatch_1);}.cls-5{fill:url(#New_Gradient_Swatch_1-2);}</style>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="9.05"
+       x2="308.9"
+       y1="9.05"
+       x1="269.44"
+       id="New_Gradient_Swatch_2">
+      <stop
+         id="stop4"
+         stop-color="#003461"
+         offset="0" />
+      <stop
+         id="stop6"
+         stop-color="#20618c"
+         offset="0.21" />
+      <stop
+         id="stop8"
+         stop-color="#4190b9"
+         offset="0.47" />
+      <stop
+         id="stop10"
+         stop-color="#59b2da"
+         offset="0.69" />
+      <stop
+         id="stop12"
+         stop-color="#68c7ef"
+         offset="0.88" />
+      <stop
+         id="stop14"
+         stop-color="#6dcff6"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#New_Gradient_Swatch_2"
+       y2="28.22"
+       x2="290.22"
+       y1="14.64"
+       x1="299.35"
+       id="New_Gradient_Swatch_2-2" />
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="7.38"
+       x2="279.22"
+       y1="59.63"
+       x1="279.22"
+       id="New_Gradient_Swatch_1">
+      <stop
+         id="stop18"
+         stop-color="#1c672d"
+         offset="0" />
+      <stop
+         id="stop20"
+         stop-color="#296f2c"
+         offset="0.06" />
+      <stop
+         id="stop22"
+         stop-color="#86ab27"
+         offset="0.52" />
+      <stop
+         id="stop24"
+         stop-color="#c0d024"
+         offset="0.85" />
+      <stop
+         id="stop26"
+         stop-color="#d7df23"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#New_Gradient_Swatch_1"
+       y2="14.91"
+       x2="256.15"
+       y1="14.91"
+       x1="275.31"
+       id="New_Gradient_Swatch_1-2" />
+  </defs>
+  <title
+     id="title32">Asset 2</title>
+  <g
+     data-name="Layer 2"
+     id="Layer_2">
+    <g
+       id="credit">
+      <polygon
+         id="polygon34"
+         points="25.17 40.84 17.61 40.84 13 67.08 2.86 67.08 7.46 40.84 0 40.84 0.71 37.27 25.83 37.27 25.17 40.84"
+         class="cls-1" />
+      <polygon
+         id="polygon36"
+         points="49.44 67.08 39.29 67.08 41.61 53.8 35.84 53.8 33.52 67.08 23.38 67.08 28.6 37.27 38.78 37.27 36.5 50.23 42.23 50.23 44.51 37.27 54.75 37.27 49.44 67.08"
+         class="cls-1" />
+      <polygon
+         id="polygon38"
+         points="64.79 67.08 54.65 67.08 59.87 37.27 70.05 37.27 64.79 67.08"
+         class="cls-1" />
+      <polygon
+         id="polygon40"
+         points="94.98 67.08 83.99 67.08 77.97 45.53 74.18 67.08 69.95 67.08 75.17 37.27 86.39 37.27 92.14 59.1 95.97 37.27 100.29 37.27 94.98 67.08"
+         class="cls-1" />
+      <polygon
+         id="polygon42"
+         points="126.25 67.08 116.11 67.08 118.42 53.8 112.65 53.8 110.33 67.08 100.19 67.08 105.41 37.27 115.6 37.27 113.31 50.23 119.04 50.23 121.33 37.27 131.56 37.27 126.25 67.08"
+         class="cls-1" />
+      <path
+         id="path44"
+         d="M152.94,57.22l-1.74,9.86H141.06l5.22-29.82h10.85a38.85,38.85,0,0,1,4.89.28,11.43,11.43,0,0,1,3.84,1.13,6.43,6.43,0,0,1,2.58,2.42,8.72,8.72,0,0,1,1.05,4.2,13.5,13.5,0,0,1-.6,4.62,9.11,9.11,0,0,1-2.35,3.8,11.54,11.54,0,0,1-4.34,2.56,20.12,20.12,0,0,1-6.59.94Zm2.7-3A2.84,2.84,0,0,0,158,53a9.57,9.57,0,0,0,1.49-2.86,17.3,17.3,0,0,0,.78-3.52,21.32,21.32,0,0,0,.16-3.19,5,5,0,0,0-.5-2.14,1.9,1.9,0,0,0-1.86-.87h-2.11l-2.44,13.76Z"
+         class="cls-1" />
+      <polygon
+         id="polygon46"
+         points="195.29 67.08 185.15 67.08 187.47 53.8 181.69 53.8 179.37 67.08 169.23 67.08 174.45 37.27 184.64 37.27 182.35 50.23 188.08 50.23 190.37 37.27 200.6 37.27 195.29 67.08"
+         class="cls-1" />
+      <path
+         id="path48"
+         d="M226.51,67.08h-11l-.94-7.46H205.9l-3.05,7.46h-4.55L211,37.27h11.13ZM207.32,56.19h6.81l-1.56-12.77Z"
+         class="cls-1" />
+      <polygon
+         id="polygon50"
+         points="253.89 40.84 246.33 40.84 241.72 67.08 231.58 67.08 236.18 40.84 228.72 40.84 229.43 37.27 254.55 37.27 253.89 40.84"
+         class="cls-1" />
+      <path
+         id="path52"
+         d="M307.65,4A9.3,9.3,0,0,0,300,0H268.34l-1,5.69h16a14.6,14.6,0,0,1,1.52.14,9.23,9.23,0,0,1,7.61,9.07h5.16a7.41,7.41,0,0,1,4.48,1.51,7.53,7.53,0,0,1,1.49,1.51l.07.09.07.09L305.36,17A9.32,9.32,0,0,0,307.65,4Z"
+         class="cls-2" />
+      <path
+         id="path54"
+         d="M302.75,17a7.5,7.5,0,0,0-1.36-1,7.39,7.39,0,0,0-3.77-1h-5.16a9.21,9.21,0,0,1-.14,1.6L290.4,27.43l1.12-.79,12.2-8.55-.07-.09-.07-.09A7.56,7.56,0,0,0,302.75,17Z"
+         class="cls-3" />
+      <path
+         id="path56"
+         d="M290.59,16.21h0a7.45,7.45,0,0,0-6-8.63c-.44-.08-1.29-.11-1.29-.11H270.34a5.56,5.56,0,0,1,5.51,6.48c0,.1,0,.21-.05.31l-1.43,8.12-6.63,37.27L285,47.54Z"
+         class="cls-4" />
+      <path
+         id="path58"
+         d="M270.34,7.45H259.79l-2.63,14.91h17.21l1.43-8.12c0-.1,0-.21.05-.31a5.56,5.56,0,0,0-5.51-6.48Z"
+         class="cls-5" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,86 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmDistributeMeetingLog">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:dataTable
+                        id="tblResultSearchLog"
+                        widgetVar="tblResultSearchLog"
+                        value="#{distributeMeetingController.dsaResultMeetingLogDTOs}"
+                        var="dsaResultMeetingLogDTO"
+                        rowIndexVar="index"
+                        rowKey="#{dsaResultMeetingLogDTO.id}"
+                        lazy="false"
+                        paginator="#{lang['common.paging.paginator']}"
+                        rows="#{lang['common.paging.rows.default']}"
+                        rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                        paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                        paginatorPosition="#{lang['common.paging.paginatorPosition']}"
+                        paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                        currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                        emptyMessage="#{lang['common.empty.records']}">
+                    <f:facet name="header">
+                    </f:facet>
+                    <p:column headerText="#{lang['common.label.seq']}"
+                              style="width: 5%" styleClass="al-center">
+                        <p:outputLabel value="#{index + 1}" />
+                    </p:column>
+                    <p:column headerText="#{lang['distribute.meeting.dsa.label']}">
+                        <p:outputLabel value="#{dsaResultMeetingLogDTO.dsaCode}" />
+                    </p:column>
+                    <p:column headerText="#{lang['distribute.meeting.tl.dsa.label']}">
+                        <p:outputLabel value="#{dsaResultMeetingLogDTO.tlDsaCode}" />
+                    </p:column>
+                    <p:column headerText="#{lang['distribute.meeting.meet.date.label']}">
+                        <p:outputLabel value="#{distributeMeetingController.convertDateToString(dsaResultMeetingLogDTO.meetingDate)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['distribute.meeting.province.label']}">
+                        <p:outputLabel value="#{distributeMeetingController.getProvinceNameByCode(dsaResultMeetingLogDTO.provinceMeetingId)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['distribute.meeting.district.label']}">
+                        <p:outputLabel value="#{distributeMeetingController.getDistrictNameByCode(dsaResultMeetingLogDTO.districtMeetingId)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['input.meeting.meeting.result.label']}">
+                        <p:outputLabel value="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_DSA_MEETING_RESULT',dsaResultMeetingLogDTO.meetingResult)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['input.meeting.meeting.reason.label']}">
+                        <p:outputLabel value="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_DSA_REASON',dsaResultMeetingLogDTO.meetingReason)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['distribute.meeting.accept.status.lbl']}">
+                        <p:outputLabel value="#{distributeMeetingController.convertOptionSetByCodeAndValue('SALE_CCA_ACCEPT_STATUS',dsaResultMeetingLogDTO.acceptStatus)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['common.label.create.user']}">
+                        <p:outputLabel value="#{dsaResultMeetingLogDTO.createdUser}" />
+                    </p:column>
+                    <p:column headerText="#{lang['common.label.create.date']}">
+                        <p:outputLabel value="#{distributeMeetingController.convertDateTimeToString(dsaResultMeetingLogDTO.createdDate)}" />
+                    </p:column>
+                    <p:column headerText="#{lang['input.meeting.meeting.file.label']}">
+                        <p:commandLink
+                                id="btnDownloadEdu"
+                                title="#{dsaResultMeetingLogDTO.fileNameUpload}"
+                                value="#{dsaResultMeetingLogDTO.fileNameUpload}"
+                                ajax="false"
+                                actionListener="#{distributeMeetingController.downloadFileAtt(dsaResultMeetingLogDTO.prefixFolder,dsaResultMeetingLogDTO.fileNameUpload)}"
+                                immediate="true"
+                                style="text-decoration: none!important;">
+                            <i class="icon-download"></i>
+                            <p:fileDownload
+                                    value="#{distributeMeetingController.downloadFile}"/>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgDistributeMeetingLog').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

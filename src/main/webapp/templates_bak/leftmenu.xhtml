@@ -1,0 +1,18 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:sn="http://primefaces.org/c4ftheme"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+    <h:form id="form_menu">
+        <div class="layout-rightpanel" style="background-color: #3F51B5">
+            <div class="layout-menu">
+                <div class="nano">
+                    <div class="nano-content menu-scroll-content" tabindex="0" style="margin-right: -17px;">
+                        <sn:menu model="#{menuBean.mainMenu}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,197 @@
+<ui:composition
+        template="/templates/template.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="title" >#{lang['campaign.label.title']}</ui:define>
+    <ui:define name="content">
+        <div class="card card-w-title">
+            <h1>#{lang['campaign.label.title']}</h1>
+            <h:form id="form">
+                <p:outputPanel id="searchForm" class="card card-w-title">
+                    <h4 class="headerPanel"><span>#{lang['campaign.label.title.search']}</span></h4>
+                    <p:growl showDetail="true" life="7000" globalOnly="true" autoUpdate="true" severity="error, info"/>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12">
+                            <p:panelGrid columns="6"
+                                         layout="grid"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                                         styleClass="ui-panelgrid-blank form-group"
+                                         style="border:0px none; background-color:transparent;">
+
+                                <p:outputLabel value="#{lang['campaign.programcode.label']}"/>
+                                <p:inputText maxlength="200" converter="stringTrimmer" value="#{campaignController.lazyLoadCampaign.requestSearchDTO.programCode}"/>
+
+                                <p:outputLabel value="#{lang['campaign.productname.label']}" />
+                                <p:inputText maxlength="30" converter="stringTrimmer" value="#{campaignController.lazyLoadCampaign.requestSearchDTO.productName}"/>
+
+                                <p:outputLabel value="#{lang['campaign.province.label']}" />
+                                <p:selectOneMenu filter="true" filterMatchMode="startsWith"
+                                                 value="#{campaignController.lazyLoadCampaign.requestSearchDTO.province}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                                    <f:selectItems value="#{campaignController.areaDTOs}"
+                                                   var="areaDTO"
+                                                   itemValue="#{areaDTO.code}"
+                                                   itemLabel="#{areaDTO.name}"
+                                    />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="#{lang['campaign.score.label']}" />
+                                <p:inputText maxlength="2000" converter="stringTrimmer" value="#{campaignController.lazyLoadCampaign.requestSearchDTO.scores}"/>
+
+                                <p:outputLabel value="#{lang['campaign.from.date.label']}" />
+                                <p:calendar value="#{campaignController.lazyLoadCampaign.requestSearchDTO.fromDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="callFromdate" navigator="true" styleClass="cal fromdate"
+                                            widgetVar="callFromdateWd" showButtonPanel="true"
+                                            requiredMessage="#{lang['campaign.from.date.req.mess']}">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+
+                                <p:outputLabel value="#{lang['campaign.to.date.label']}" />
+                                <p:calendar value="#{campaignController.lazyLoadCampaign.requestSearchDTO.toDate}"
+                                            pattern="#{lang['common.datetime.format']}" mask="true"
+                                            id="callTodate" navigator="true" styleClass="cal todate"
+                                            widgetVar="callTodateWd" showButtonPanel="true"
+                                            requiredMessage="#{lang['campaign.to.date.req.mess']}">
+                                    <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                                </p:calendar>
+                            </p:panelGrid>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;" class="al-center">
+                        <p:commandButton value="#{lang['common.btn.search']}" update="@([id$=tblResultSearch])"
+                                         onclick="PF('tblResultSearch').getPaginator().setPage(0);"
+                                         process="@this, @([id$=searchForm])" icon="ui-icon-search" style="margin-right: 5px"/>
+                    </div>
+                </p:outputPanel>
+                <div class="card card-w-title" style="clear: right">
+                    <h4 class="headerPanel"><span>#{lang['common.label.resultSearch']}</span></h4>
+                    <div class="ui-g ui-fluid" style="clear: right">
+                        <div class="ui-g-12">
+                            <p:dataTable
+                                    id="tblResultSearch"
+                                    widgetVar="tblResultSearch"
+                                    value="#{campaignController.lazyLoadCampaign}"
+                                    var="campaign"
+                                    rowIndexVar="index"
+                                    rowKey="#{campaign.key}"
+                                    lazy="true"
+                                    reflow="true"
+                                    disabledSelection="#{campaign.status == 0}"
+                                    selection="#{campaignController.lazyLoadCampaign.selectedList}"
+                                    paginator="#{lang['common.paging.paginator']}"
+                                    rows="#{lang['common.paging.rows.default']}"
+                                    rowsPerPageTemplate="#{lang['common.paging.rowsPerPageTemplate']}"
+                                    paginatorAlwaysVisible="#{lang['common.paging.paginatorAlwaysVisible']}"
+                                    paginatorPosition="#{lang['common.paging.paginatorPosition']}"
+                                    paginatorTemplate="#{lang['common.paging.paginatorTemplate']}"
+                                    currentPageReportTemplate="#{lang['common.paging.currentPageReportTemplate']}"
+                                    emptyMessage="#{lang['common.empty.records']}">
+                                <f:facet name="header">
+                                    <p:commandButton value="#{lang['common.btn.add']}"
+                                                     oncomplete="if(!args.validationFailed){PF('dlgCampaign').show()}"
+                                                     actionListener="#{campaignController.prepareToShowAdd}"
+                                                     update="@([id$=frmCampaign])"
+                                                     process="@this"
+                                                     style="float: left"
+                                                     resetValues="true"
+                                                     icon="ui-icon-add">
+                                    </p:commandButton>
+                                    <sn:confirmDialog
+                                            idComponent="btnDelete"
+                                            valueButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionValidate="#{campaignController.validateBeforeDelete}"
+                                            actionOK="#{campaignController.delete}"
+                                            styleClassButton="red-btn"
+                                            styleButton="float: right"
+                                            iconButton="ui-icon-delete"
+                                            process="@this, @([id$=tblResultSearch])"
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            isButton="true"/>
+                                    <div style="clear: both"></div>
+                                </f:facet>
+                                <p:column headerText="#{lang['common.label.seq']}" sortBy="#{index + 1}">
+                                    <p:outputLabel value="#{index + 1}" />
+                                </p:column>
+                                <p:column headerText="#{lang['campaign.programcode.label']}"
+                                          sortBy="#{campaign.programCode}">
+                                    <p:outputLabel value="#{campaign.programCode}" />
+                                </p:column>
+                                <p:column headerText="#{lang['campaign.productname.label']}"
+                                          sortBy="#{campaign.productName}">
+                                    <p:outputLabel value="#{campaign.productName}" />
+                                </p:column>
+                                <p:column headerText="#{lang['campaign.province.label']}"
+                                          sortBy="#{campaign.province}">
+                                    <p:outputLabel value="#{campaign.province}" />
+                                </p:column>
+                                <p:column headerText="#{lang['campaign.score.label']}"
+                                          sortBy="#{campaign.scores}">
+                                    <p:outputLabel value="#{campaign.scores}" />
+                                </p:column>
+                                <p:column headerText="#{lang['campaign.from.date.label']}"
+                                          sortBy="#{campaignController.convertDateToString(campaign.fromDate)}">
+                                    <p:outputLabel value="#{campaignController.convertDateToString(campaign.fromDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['campaign.to.date.label']}"
+                                          sortBy="#{campaignController.convertDateToString(campaign.toDate)}">
+                                    <p:outputLabel value="#{campaignController.convertDateToString(campaign.toDate)}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.status']}"
+                                          sortBy="#{campaign.status}">
+                                    <p:outputLabel value="#{campaign.status == 1 ? lang['common.label.status.active'] : lang['common.label.status.inactive']}" />
+                                </p:column>
+                                <p:column headerText="#{lang['common.label.action']}">
+                                    <p:commandLink actionListener="#{campaignController.prepareToShowUpdate(campaign)}"
+                                                   oncomplete="if(!args.validationFailed){PF('dlgCampaign').show()}"
+                                                   update="@([id$=frmCampaign])"
+                                                   process="@this"
+                                                   title="#{lang['common.btn.update']}"><i class="ui-icon ui-icon-edit" /></p:commandLink>
+                                    <p:confirmDialog
+                                            renderedBtn="#{campaign.status == 1}"
+                                            idComponent="btnDeleteOne"
+                                            titleButton="#{lang['common.btn.delete']}"
+                                            headerConfirm="#{lang['common.confirm.header']}"
+                                            messageConfirm="#{lang['common.confirm.message']}"
+                                            actionOK="#{campaignController.delete}"
+                                            actionValidate="#{campaignController.prepareDeleteOne(campaign)}"
+                                            iconButton="ui-icon ui-icon-delete"
+                                            process="@this"
+                                            valueButton=""
+                                            updateOK="@([id$=tblResultSearch])"
+                                            focusCancel="true"
+                                            responsive="true"
+                                            isButton="false"/>
+                                </p:column>
+                                <p:column selectionMode="multiple" styleClass="al-center"/>
+
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+
+        <p:dialog widgetVar="dlgCampaign"
+                  appendTo="@(body)"
+                  closable="true"
+                  closeOnEscape="true"
+                  modal="true"
+                  header="#{campaignController.headerDialog}"
+                  style="!important;max-height:700px;overflow:auto; margin-top: 25px;font-weight: 500!important;color: dodgerblue;"
+                  width="80%"
+                  maximizable="true"
+                  resizable="false"
+                  position="top"
+                  dynamic="true"
+                  responsive="true">
+            <ui:include src="dlgCampaign.xhtml"/>
+        </p:dialog>
+    </ui:define>
+</ui:composition>

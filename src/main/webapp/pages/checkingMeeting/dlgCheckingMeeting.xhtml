@@ -1,0 +1,206 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:o="http://java.sun.com/jsf/core">
+    <h:form id="frmBoCheckupResult">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.customerName']}" for="customerName"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerName" maxlength="100" readonly="true"
+                                     converter="stringTrimmer"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.customerName}">
+                        </p:inputText>
+                        <p:message for="customerName" />
+                    </p:outputPanel>
+
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.customerPhone']}" for="customerPhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerPhone" maxlength="15" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.customerPhone}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="customerPhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.nationalId']}" for="nationalId"/>
+                    <p:outputPanel>
+                        <p:inputText id="nationalId" maxlength="30"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.nationalId}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="nationalId" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.partner']}" for="partnerCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="partnerCode" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.partnerCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="partnerCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.bound.code']}" for="boundCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundCode" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.boundCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.province.lead']}" for="provincePhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="provincePhone" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.provinceName}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="provincePhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.upl.limit']}" for="uplLimit"/>
+                    <p:outputPanel>
+                        <p:inputText id="uplLimit" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.uplLimitDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="uplLimit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.cc.limit']}" for="ccLimit"/>
+                    <p:outputPanel>
+                        <p:inputText id="ccLimit" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.ccLimitDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="ccLimit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.validDate']}" for="validDate"/>
+                    <p:outputPanel>
+                        <p:inputText id="validDate" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.validDate)}"
+                                     title="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.validDate)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.receivedDsaDate']}" for="receivedDsaDate"/>
+                    <p:outputPanel>
+                        <p:inputText id="receivedDsaDate" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.receivedDsaDate)}"
+                                     title="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.receivedDsaDate)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.returnDsaDate']}" for="returnDsaDate"/>
+                    <p:outputPanel>
+                        <p:inputText id="returnDsaDate" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.returnDsaDate)}"
+                                     title="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.returnDsaDate)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.sendQDE']}" for="sendQDE"/>
+                    <p:outputPanel>
+                        <p:inputText id="sendQDE" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.sendQdeDate)}"
+                                     title="#{checkingMeetingResultController.convertDateToString(checkingMeetingResultController.currentBoCheckupResult.sendQdeDate)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.qde.status']}" for="qdeStatus"/>
+                    <p:outputPanel>
+                        <p:inputText id="qdeStatus" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_QDE_STATUS_CHECK_UP',checkingMeetingResultController.currentBoCheckupResult.qdeStatus)}"
+                                     title="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_QDE_STATUS_CHECK_UP',checkingMeetingResultController.currentBoCheckupResult.qdeStatus)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.checkup.status']}" for="checkupStatus"/>
+                    <p:outputPanel>
+                        <p:inputText id="checkupStatus" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_STATUS_CHECK_UP',checkingMeetingResultController.currentBoCheckupResult.checkupStatus)}"
+                                     title="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_STATUS_CHECK_UP',checkingMeetingResultController.currentBoCheckupResult.checkupStatus)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.reason.detail.status']}" for="reasonDetail"/>
+                    <p:outputPanel>
+                        <p:inputTextarea id="reasonDetail" maxlength="2000" autoResize="false" readonly="true"
+                                         value="#{checkingMeetingResultController.currentBoCheckupResult.checkupReasonDetail}" converter="stringTrimmer"/>
+                        <p:message for="reasonDetail" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.status.vpbank']}" for="statusVpbank"/>
+                    <p:outputPanel>
+                        <p:inputText id="statusVpbank" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_STATUS_DOC_VPBANK',checkingMeetingResultController.currentBoCheckupResult.statusDocVpbank)}"
+                                     title="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_STATUS_DOC_VPBANK',checkingMeetingResultController.currentBoCheckupResult.statusDocVpbank)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="statusVpbank" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.group.status.vpbank']}" for="groupStatusVpbank"/>
+                    <p:outputPanel>
+                        <p:inputText id="groupStatusVpbank" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_GROUP_STATUS_DOC',checkingMeetingResultController.currentBoCheckupResult.groupDocStatus)}"
+                                     title="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_GROUP_STATUS_DOC',checkingMeetingResultController.currentBoCheckupResult.groupDocStatus)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="groupStatusVpbank" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.detail.status.vpbank']}" for="detailStatusVpbank"/>
+                    <p:outputPanel>
+                        <p:inputText id="detailStatusVpbank" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_DETAIL_STATUS_DOC',checkingMeetingResultController.currentBoCheckupResult.detailStatusDocVpbank)}"
+                                     title="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_DETAIL_STATUS_DOC',checkingMeetingResultController.currentBoCheckupResult.detailStatusDocVpbank)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="detailStatusVpbank" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.status.return.doc']}" for="docReturnStatus"/>
+                    <p:outputPanel>
+                        <p:inputText id="docReturnStatus" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_DOC_RETURN_STATUS',checkingMeetingResultController.currentBoCheckupResult.docReturnStatus)}"
+                                     title="#{checkingMeetingResultController.convertOptionSetByCodeAndValue('SALE_BO_FOLLOW_DOC_RETURN_STATUS',checkingMeetingResultController.currentBoCheckupResult.docReturnStatus)}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="docReturnStatus" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boFollowResult.label.note.status.vpbank']}" for="noteStatusVpbank"/>
+                    <p:outputPanel>
+                        <p:inputText id="noteStatusVpbank" maxlength="2000" readonly="true"
+                                     value="#{checkingMeetingResultController.currentBoCheckupResult.noteStatusDocVpbank}"
+                                     title="#{checkingMeetingResultController.currentBoCheckupResult.noteStatusDocVpbank}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="noteStatusVpbank" />
+                    </p:outputPanel>
+
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgCheckingMeeting').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

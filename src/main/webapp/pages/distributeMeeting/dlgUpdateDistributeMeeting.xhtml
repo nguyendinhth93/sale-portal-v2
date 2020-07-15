@@ -1,0 +1,186 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:form id="frmUpdateDistributeMeeting">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['input.meeting.customer.name.label']}" for="customerName"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerName" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.customerName}">
+                        </p:inputText>
+                        <p:message for="customerName" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.phone.label']}" for="customerPhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerPhone" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.customerPhone}">
+                        </p:inputText>
+                        <p:message for="customerPhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.national.id.label']}" for="nationalId"/>
+                    <p:outputPanel>
+                        <p:inputText id="nationalId" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.nationalId}">
+                        </p:inputText>
+                        <p:message for="nationalId" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.limit.label']}" for="limit"/>
+                    <p:outputPanel>
+                        <p:inputText id="limit" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.limit}">
+                        </p:inputText>
+                        <p:message for="limit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.limit.card.label']}" for="limitCard"/>
+                    <p:outputPanel>
+                        <p:inputText id="limitCard" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.limitCard}">
+                        </p:inputText>
+                        <p:message for="limitCard" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.score.range.label']}" for="scoreRange"/>
+                    <p:outputPanel>
+                        <p:inputText id="scoreRange" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.scoreRange}">
+                        </p:inputText>
+                        <p:message for="scoreRange" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.boundcode.label']}" for="boundCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundCode" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.boundCode}">
+                        </p:inputText>
+                        <p:message for="boundCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.jtl.cca.label']}" for="jtlCcaName"/>
+                    <p:outputPanel>
+                        <p:inputText id="jtlCcaName" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.jtlCcaName}">
+                        </p:inputText>
+                        <p:message for="jtlCcaName" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['input.meeting.cca.label']}" for="ccaName"/>
+                    <p:outputPanel>
+                        <p:inputText id="ccaName" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     requiredMessage="#{lang['common.msg.require']}"
+                                     validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                     value="#{distributeMeetingController.currentDsaResultMeetingDTO.ccaName}">
+                        </p:inputText>
+                        <p:message for="ccaName" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['distribute.meeting.call.date.label']}" for="callDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{distributeMeetingController.currentDsaResultMeetingDTO.callDate}"
+                                    required="true" disabled="true"
+                                    requiredMessage="#{lang['input.meeting.meeting.date.req.mess']}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="callDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="callDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['distribute.meeting.province.label']}" for="callDate"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="province" filter="true" filterMatchMode="contains" required="true"
+                                         panelStyleClass="ui-input-overlay"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                         value="#{distributeMeetingController.currentDsaResultMeetingDTO.provinceMeetingCode}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{distributeMeetingController.lstProvinces}"
+                                           var="areaDTO"
+                                           itemValue="#{areaDTO.code}"
+                                           itemLabel="#{areaDTO.name}"
+                            />
+                            <p:ajax listener="#{distributeMeetingController.getListDistrictByProvinceId(distributeMeetingController.currentDsaResultMeetingDTO.provinceMeetingCode)}" update="district" />
+                        </p:selectOneMenu>
+                        <p:message for="province" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['distribute.meeting.district.label']}" for="callDate"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="district" filter="true" filterMatchMode="contains" required="true"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         validatorMessage="#{lang['common.msg.error.filed.code']}"
+                                         value="#{distributeMeetingController.currentDsaResultMeetingDTO.districtMeetingCode}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{distributeMeetingController.lstDistricts}"
+                                           var="areaDTO"
+                                           itemValue="#{areaDTO.code}"
+                                           itemLabel="#{areaDTO.name}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="district" />
+                    </p:outputPanel>
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <sn:confirmDialog
+                    idComponent="btnSave"
+                    valueButton="#{lang['common.btn.save']}"
+                    headerConfirm="#{lang['common.confirm.header']}"
+                    messageConfirm="#{lang['common.confirm.message']}"
+                    actionValidate="#{distributeMeetingController.validateBeforeUpdate}"
+                    actionOK="#{distributeMeetingController.updateMeeting}"
+                    iconButton="ui-icon-save"
+                    updateArea="@([id$=frmUpdateDistributeMeeting])"
+                    updateOK="@([id$=tblResultSearch])"
+                    process="@this, @([id$=frmUpdateDistributeMeeting])"
+                    styleButton="margin-right: 5px"
+                    focusCancel="false"
+                    isButton="true"/>
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgUpdateDistributeMeeting').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,228 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:pe="http://primefaces.org/ui/extensions"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:sn="http://java.sun.com/jsf/composite/tags"
+        xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:o="http://java.sun.com/jsf/core">
+    <h:form id="frmViewBoCheckupResult">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <p:panelGrid columns="6"
+                             layout="grid"
+                             columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-co-2"
+                             styleClass="ui-panelgrid-blank form-group"
+                             style="border:0px none; background-color:transparent;">
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.customerName']}" for="customerName"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerName" maxlength="30" disabled="true"
+                                     converter="stringTrimmer"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.customerName}">
+                        </p:inputText>
+                        <p:message for="customerName" />
+                    </p:outputPanel>
+
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.customerPhone']}" for="customerPhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="customerPhone" maxlength="15" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.customerPhone}"
+                                     converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="customerPhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.nationalId']}" for="nationalId"/>
+                    <p:outputPanel>
+                        <p:inputText id="nationalId" maxlength="30" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.nationalId}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="nationalId" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.partner']}" for="partnerCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="partnerCode" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.partnerCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="partnerCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.bound.code']}" for="boundCode"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundCode" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.boundCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundCode" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.bound.code.dsa']}" for="boundCodeDsa"/>
+                    <p:outputPanel>
+                        <p:inputText id="boundCodeDsa" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.boundCodeDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boundCodeDsa" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.province.lead']}" for="provincePhone"/>
+                    <p:outputPanel>
+                        <p:inputText id="provincePhone" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.provinceName}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="provincePhone" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.upl.limit']}" for="uplLimit"/>
+                    <p:outputPanel>
+                        <p:inputText id="uplLimit" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.uplLimitDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="uplLimit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.cc.limit']}" for="ccLimit"/>
+                    <p:outputPanel>
+                        <p:inputText id="ccLimit" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.ccLimitDsa}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="ccLimit" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.validDate']}" for="validDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boCheckupResultController.currentBoCheckupResult.validDate}"
+                                    pattern="#{lang['common.datetime.format']}" mask="true" disabled="true"
+                                    id="validDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="validDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.status.ts.risk']}" for="tsRisk"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="tsRisk" filter="true" filterMatchMode="contains" disabled="true"
+                                         value="#{boCheckupResultController.currentBoCheckupResult.limitTsRisk}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boCheckupResultController.statusTSAndRisks}"
+                                           var="optionDTO"
+                                           itemValue="#{optionDTO.value}"
+                                           itemLabel="#{optionDTO.name}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="tsRisk" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.receivedDsaDate']}" for="receivedDsaDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boCheckupResultController.currentBoCheckupResult.receivedDsaDate}" disabled="true"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="receivedDsaDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="receivedDsaDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.returnDsaDate']}" for="returnDsaDate"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boCheckupResultController.currentBoCheckupResult.returnDsaDate}" disabled="true"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="returnDsaDate" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="returnDsaDate" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.sendQDE']}" for="sendQDE"/>
+                    <p:outputPanel>
+                        <p:calendar value="#{boCheckupResultController.currentBoCheckupResult.sendQdeDate}" disabled="true"
+                                    pattern="#{lang['common.datetime.format']}" mask="true"
+                                    id="sendQDE" navigator="true" styleClass="cal meetdate"
+                                    widgetVar="callFromdateWd" showButtonPanel="true">
+                            <f:convertDateTime pattern="#{lang['common.datetime.format']}"/>
+                        </p:calendar>
+                        <p:message for="sendQDE" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.tlbo.checkup']}" for="tlboCheckup"/>
+                    <p:outputPanel>
+                        <p:inputText id="tlboCheckup" maxlength="2000" readonly="true" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.tlBoCheckupCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="tlboCheckup" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.bo.checkup']}" for="boCheckup"/>
+                    <p:outputPanel>
+                        <p:inputText id="boCheckup" maxlength="2000" disabled="true"
+                                     value="#{boCheckupResultController.currentBoCheckupResult.boCheckupCode}" converter="stringTrimmer">
+                        </p:inputText>
+                        <p:message for="boCheckup" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.qde.status']}" for="qdeStatus"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="qdeStatus" filter="true" filterMatchMode="contains" disabled="true"
+                                         value="#{boCheckupResultController.currentBoCheckupResult.qdeStatus}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boCheckupResultController.statusDocQDEs}"
+                                           var="optionDTO"
+                                           itemValue="#{optionDTO.value}"
+                                           itemLabel="#{optionDTO.name}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="qdeStatus" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.checkup.status']}" for="checkupStatus"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="checkupStatus" filter="true" filterMatchMode="contains" disabled="true"
+                                         requiredMessage="#{lang['common.msg.require']}"
+                                         value="#{boCheckupResultController.currentBoCheckupResult.checkupStatus}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boCheckupResultController.statusDocCheckUps}"
+                                           var="optionDTO"
+                                           itemValue="#{optionDTO.value}"
+                                           itemLabel="#{optionDTO.name}"
+                            />
+                            <p:ajax listener="#{boCheckupResultController.updateReasonByCheckupStatus(boCheckupResultController.currentBoCheckupResult.checkupStatus)}" update="reasonStatus" />
+                        </p:selectOneMenu>
+                        <p:message for="checkupStatus" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.reason.status']}" for="reasonStatus"/>
+                    <p:outputPanel>
+                        <p:selectOneMenu id="reasonStatus" filter="true" filterMatchMode="contains" disabled="true"
+                                         value="#{boCheckupResultController.currentBoCheckupResult.checkupReason}">
+                            <f:selectItem itemValue="#{null}" itemLabel="#{lang['common.label.choose']}" escape="true"/>
+                            <f:selectItems value="#{boCheckupResultController.reasonCheckUpLists}"
+                                           var="optionDTO"
+                                           itemValue="#{optionDTO.value}"
+                                           itemLabel="#{optionDTO.name}"
+                            />
+                        </p:selectOneMenu>
+                        <p:message for="reasonStatus" />
+                    </p:outputPanel>
+
+                    <p:outputLabel value="#{lang['boCheckupResult.label.reason.detail.status']}" for="reasonDetail"/>
+                    <p:outputPanel>
+                        <p:inputTextarea id="reasonDetail" maxlength="2000" autoResize="false" disabled="true"
+                                         value="#{boCheckupResultController.currentBoCheckupResult.checkupReasonDetail}" converter="stringTrimmer"/>
+                        <p:message for="reasonDetail" />
+                    </p:outputPanel>
+
+                </p:panelGrid>
+            </div>
+        </div>
+        <div style="margin-top: 20px;" class="al-center">
+            <p:commandButton value="#{lang['common.btn.close']}"
+                             immediate="true"
+                             onclick="PF('dlgViewBoCheckupResult').hide()"
+                             icon="ui-icon-close" />
+        </div>
+    </h:form>
+</ui:composition>
